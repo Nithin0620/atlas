@@ -16,10 +16,7 @@ export function VoiceHeroDemo() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
     },
   };
 
@@ -31,20 +28,13 @@ export function VoiceHeroDemo() {
   return (
     <section className="relative pt-44 pb-24 md:pt-52 md:pb-32 overflow-hidden bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="text-center max-w-5xl mx-auto space-y-10"
-        >
-          {/* Top Feature Pill */}
+        <motion.div variants={containerVariants} initial="hidden" animate="show" className="text-center max-w-5xl mx-auto space-y-10">
           <motion.div variants={itemVariants} className="flex justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm font-medium text-white/70 tracking-wide">
               <span>Atlas v2.0 &middot; Ultra Low-Latency Voice AI Learning</span>
             </div>
           </motion.div>
 
-          {/* Hero Title */}
           <motion.h1 variants={itemVariants} className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[1.05] text-white">
             Master Any Subject with <br className="hidden md:inline" />
             <span className="italic font-light">Live Voice AI</span>
@@ -54,31 +44,13 @@ export function VoiceHeroDemo() {
             Atlas pairs natural, full-duplex conversational voice tutoring with real-time synchronized visual companions.
           </motion.p>
 
-          {/* CTAs */}
           <motion.div variants={itemVariants} className="pt-4 flex flex-wrap items-center justify-center gap-5">
-            <Link
-              href="/sign-up"
-              className="px-8 py-4 rounded-full text-base btn-premium inline-flex items-center gap-2 group"
-            >
+            <Link href="/sign-up" className="px-8 py-4 rounded-full text-base btn-premium inline-flex items-center gap-2 group">
               <span>Start Learning Free</span>
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
-
-            <button
-              onClick={toggleSimulation}
-              className="px-8 py-4 rounded-full text-base btn-premium-dark inline-flex items-center gap-2.5"
-            >
-              {isActive ? (
-                <>
-                  <Pause className="w-4 h-4" />
-                  <span>Pause Demo</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-4 h-4" />
-                  <span>Interactive Voice Preview</span>
-                </>
-              )}
+            <button onClick={toggleSimulation} className="px-8 py-4 rounded-full text-base btn-premium-dark inline-flex items-center gap-2.5">
+              {isActive ? <><Pause className="w-4 h-4" /><span>Pause Demo</span></> : <><Play className="w-4 h-4" /><span>Interactive Voice Preview</span></>}
             </button>
           </motion.div>
         </motion.div>
@@ -88,15 +60,26 @@ export function VoiceHeroDemo() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] as any }}
-          className="mt-20 max-w-4xl mx-auto"
+          className="mt-20 max-w-4xl mx-auto relative"
         >
-          <div className="rounded-[32px] bg-white/[0.02] border border-white/10 p-8 sm:p-12 backdrop-blur-sm transition-colors duration-500 hover:bg-white/[0.04]">
+          {/* Orbital Rings around the Waveform */}
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+             <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="w-64 h-64 rounded-full border border-white/5 border-t-white/20 absolute"
+             />
+             <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+                className="w-80 h-80 rounded-full border border-white/5 border-l-white/20 absolute"
+             />
+          </div>
+
+          <div className="rounded-[32px] bg-white/[0.02] border border-white/10 p-8 sm:p-12 backdrop-blur-sm transition-colors duration-500 hover:bg-white/[0.04] relative z-10">
             <div className="flex flex-col items-center justify-center text-center space-y-8">
 
-              <div
-                onClick={toggleSimulation}
-                className="relative cursor-pointer flex items-center justify-center h-32 w-full max-w-xs"
-              >
+              <div onClick={toggleSimulation} className="relative cursor-pointer flex items-center justify-center h-32 w-full max-w-xs">
                 {isActive ? (
                   <div className="flex items-end gap-1.5 h-16">
                     {[0.6, 1, 0.4, 0.8, 0.5, 0.9, 0.3].map((height, i) => (
@@ -109,24 +92,18 @@ export function VoiceHeroDemo() {
                     ))}
                   </div>
                 ) : (
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className="w-24 h-24 rounded-full border border-white/20 flex items-center justify-center"
-                  >
-                    <Mic className="w-8 h-8 text-white/50" />
+                  <motion.div whileHover={{ scale: 1.05 }} className="w-24 h-24 rounded-full border border-white/20 flex items-center justify-center relative overflow-hidden">
+                    <Mic className="w-8 h-8 text-white/50 relative z-10" />
+                    {/* Inner static rotation */}
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: 'linear' }} className="absolute inset-0 border-[3px] border-transparent border-t-white/10 rounded-full" />
                   </motion.div>
                 )}
               </div>
 
               <div>
-                <p className="text-lg font-medium text-white">
-                  {isActive ? 'AI Mentor Explaining...' : 'Tap to start voice'}
-                </p>
-                <p className="text-sm text-white/50 mt-2 font-mono uppercase tracking-widest">
-                  {isActive ? 'Dual-stream active' : 'Sub-second real-time speech'}
-                </p>
+                <p className="text-lg font-medium text-white">{isActive ? 'AI Mentor Explaining...' : 'Tap to start voice'}</p>
+                <p className="text-sm text-white/50 mt-2 font-mono uppercase tracking-widest">{isActive ? 'Dual-stream active' : 'Sub-second real-time speech'}</p>
               </div>
-
             </div>
           </div>
         </motion.div>
@@ -144,11 +121,10 @@ export function VoiceHeroDemo() {
             { label: 'True Cross-Platform' },
             { label: 'Long-Term Memory' },
           ].map((item, idx) => (
-            <div
-              key={idx}
-              className="flex items-center gap-3 text-white/70"
-            >
-              <Activity className="w-4 h-4" />
+            <div key={idx} className="flex items-center gap-3 text-white/70">
+              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity, delay: idx * 0.5 }}>
+                 <Activity className="w-4 h-4" />
+              </motion.div>
               <span className="text-sm font-medium">{item.label}</span>
             </div>
           ))}

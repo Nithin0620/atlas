@@ -29,14 +29,21 @@ export function StatsMetrics() {
 
   return (
     <section id="architecture" className="relative bg-white text-primary-dark py-24 md:py-32 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+
+      {/* Animated Subtle Background Watermark lines */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-5 flex items-center justify-center">
+         <motion.div animate={{ rotate: 360 }} transition={{ duration: 100, repeat: Infinity, ease: 'linear' }} className="w-[150vw] h-[150vw] rounded-full border border-primary-dark border-dashed absolute" />
+         <motion.div animate={{ rotate: -360 }} transition={{ duration: 150, repeat: Infinity, ease: 'linear' }} className="w-[120vw] h-[120vw] rounded-full border border-primary-dark border-dotted absolute" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20 relative z-10">
 
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as any }}
           className="text-center max-w-3xl mx-auto space-y-6"
         >
           <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary-dark/50">
@@ -55,13 +62,26 @@ export function StatsMetrics() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col space-y-6"
+              transition={{ duration: 0.6, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] as any }}
+              className="flex flex-col space-y-6 relative group"
             >
-              <div className="text-6xl sm:text-7xl font-black text-primary-dark">
+              {/* Continuous Floating Number */}
+              <motion.div
+                 animate={{ y: [-3, 3, -3] }}
+                 transition={{ duration: 4, repeat: Infinity, delay: idx * 0.5, ease: "easeInOut" }}
+                 className="text-6xl sm:text-7xl font-black text-primary-dark"
+              >
                 {pillar.num}
+              </motion.div>
+
+              <div className="w-full h-px bg-primary-dark/10 relative overflow-hidden">
+                <motion.div
+                  animate={{ x: ['-100%', '300%'] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'linear', delay: idx * 0.2 }}
+                  className="absolute top-0 bottom-0 w-1/3 bg-primary-dark/40"
+                />
               </div>
-              <div className="w-full h-px bg-primary-dark/10" />
+
               <div>
                 <h3 className="text-xl font-bold mb-3">{pillar.title}</h3>
                 <p className="text-base text-primary-dark/60 font-light leading-relaxed">
