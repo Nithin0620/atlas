@@ -1,162 +1,156 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Sparkles, Layers, BookmarkCheck, RefreshCw } from 'lucide-react';
+import { Sparkles, Terminal, BookmarkCheck, BrainCircuit } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function LiveCompanionDemo() {
   const [activeTab, setActiveTab] = useState<'visual' | 'debrief' | 'flashcards'>('visual');
 
   return (
-    <section id="companion" className="relative py-24 md:py-32 bg-[#01001a]">
+    <section id="companion" className="relative py-24 md:py-32 bg-transparent text-white overflow-hidden">
+
+      {/* Background Vertical Scan Lines */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{ x: ['-10vw', '110vw'] }}
+            transition={{ duration: 15 + i * 2, repeat: Infinity, ease: 'linear', delay: i * 2 }}
+            className="absolute top-0 bottom-0 w-px bg-white/20"
+            style={{ left: `${20 * i}%` }}
+          />
+        ))}
+      </div>
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <h2 className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
-            Beyond Pure Speech
-          </h2>
-          <h3 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            The Live <span className="shimmer-text-white">Visual Companion</span> Matrix
-          </h3>
-          <p className="text-base sm:text-lg text-slate-300">
-            Voice alone is not enough for complex technical concepts. Atlas streams code, equations, and visual diagrams in exact sync with your mentor’s speech.
-          </p>
-        </div>
-
-        {/* Interactive Feature Tabs */}
-        <div className="mt-12 flex justify-center">
-          <div className="inline-flex p-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl gap-1">
-            <button
-              onClick={() => setActiveTab('visual')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
-                activeTab === 'visual'
-                  ? 'bg-white text-[#01001a] font-bold shadow-lg shadow-white/20'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>1. Live Companion Stream</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('debrief')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
-                activeTab === 'debrief'
-                  ? 'bg-white text-[#01001a] font-bold shadow-lg shadow-white/20'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Layers className="w-4 h-4" />
-              <span>2. Auto Post-Session Debrief</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('flashcards')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
-                activeTab === 'flashcards'
-                  ? 'bg-white text-[#01001a] font-bold shadow-lg shadow-white/20'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <RefreshCw className="w-4 h-4" />
-              <span>3. Spaced-Repetition Cards</span>
-            </button>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as any }}
+          className="max-w-3xl mb-20"
+        >
+          <div className="inline-flex items-center gap-2 mb-6 text-sm font-bold uppercase tracking-widest text-white/50">
+            <span>02 &mdash; Companion</span>
           </div>
-        </div>
+          <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+            See What You Hear.
+          </h2>
+          <p className="text-lg sm:text-xl text-white/60 mt-6 font-light leading-relaxed">
+            Atlas listens to the conversation and instantly renders code blocks, diagrams, and math formulas perfectly synchronized with the mentor's voice.
+          </p>
+        </motion.div>
 
-        {/* Tab Content Dynamic View */}
-        <div className="mt-10 max-w-4xl mx-auto">
-          <div className="rounded-3xl p-1 bg-gradient-to-b from-white/20 via-white/5 to-transparent shadow-2xl">
-            <div className="rounded-[22px] bg-[#01001a]/90 backdrop-blur-2xl border border-white/[0.06] p-6 sm:p-10">
-              
-              {activeTab === 'visual' && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-xl font-bold text-white">Synchronized Visual Stream</h4>
-                      <p className="text-sm text-slate-400 mt-1">Live streaming formulas and code cards as the mentor speaks.</p>
-                    </div>
-                    <span className="px-3 py-1 rounded-full bg-white/[0.08] border border-white/[0.12] text-xs font-mono text-white">
-                      Sub-second latency
-                    </span>
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-2xl bg-[#01001a] border border-white/[0.06] space-y-3">
-                      <div className="flex items-center justify-between text-xs text-slate-400">
-                        <span className="font-semibold text-slate-200">Spoken Prompt</span>
-                        <span>0:14s</span>
+          {/* Controls */}
+          <div className="lg:col-span-4 flex flex-col justify-start space-y-4">
+            {[
+              { id: 'visual', icon: <Terminal className="w-5 h-5" />, label: 'Live Visual Sync' },
+              { id: 'debrief', icon: <BookmarkCheck className="w-5 h-5" />, label: 'Session Debrief' },
+              { id: 'flashcards', icon: <BrainCircuit className="w-5 h-5" />, label: 'Smart Flashcards' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`relative flex items-center gap-4 p-5 rounded-2xl transition-all duration-300 text-left border overflow-hidden ${
+                  activeTab === tab.id
+                    ? 'bg-white/10 border-white/20 text-white'
+                    : 'bg-transparent border-transparent text-white/50 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                {activeTab === tab.id && (
+                  <motion.div
+                    layoutId="activeTabIndicator"
+                    className="absolute left-0 top-0 bottom-0 w-1 bg-white"
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+                {tab.icon}
+                <span className="font-semibold text-lg relative z-10">{tab.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Content Area */}
+          <div className="lg:col-span-8 flex items-center">
+            <div className="w-full relative min-h-[400px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as any }}
+                  className="bg-white/[0.02] border border-white/10 rounded-[2rem] p-8 sm:p-12 h-full flex flex-col justify-center relative overflow-hidden"
+                >
+
+                  {activeTab === 'visual' && (
+                    <div className="space-y-12">
+                      <div>
+                        <div className="flex items-center gap-3 text-white/50 mb-3">
+                          <Sparkles className="w-4 h-4" />
+                          <span className="text-xs font-bold uppercase tracking-widest">Spoken Prompt</span>
+                        </div>
+                        <p className="text-xl sm:text-2xl font-light italic leading-relaxed text-white/90">
+                          "Notice how Dijkstra’s algorithm selects the unvisited node with the smallest tentative distance..."
+                        </p>
                       </div>
-                      <p className="text-sm text-slate-300 italic">
-                        "Notice how Dijkstra’s algorithm selects the unvisited node with the smallest tentative distance..."
-                      </p>
-                    </div>
 
-                    <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/[0.1] space-y-2">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-semibold text-white">Companion Visual Card</span>
-                        <span className="font-mono text-slate-300 text-[11px]">Time Complexity</span>
+                      <div className="relative">
+                        <div className="flex items-center justify-between text-white/50 mb-3 relative z-10">
+                          <span className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                             <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.8, repeat: Infinity }} className="w-2 h-2 bg-white rounded-full inline-block" />
+                             Live Companion
+                          </span>
+                          <span className="text-xs font-mono">Time Complexity</span>
+                        </div>
+                        <div className="bg-[#01001a]/80 p-6 rounded-xl font-mono text-sm text-white/80 border border-white/10 relative overflow-hidden flex items-center">
+                          <code>O((V + E) log V) with Min-Heap Priority Queue</code>
+                          <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 1, repeat: Infinity }} className="inline-block w-2 h-4 bg-white/70 ml-1" />
+                        </div>
                       </div>
-                      <div className="p-2.5 rounded-xl bg-[#01001a] font-mono text-xs text-white">
-                        <code>O((V + E) log V) with Min-Heap Priority Queue</code>
+                    </div>
+                  )}
+
+                  {activeTab === 'debrief' && (
+                    <div className="space-y-8">
+                      <div>
+                        <h4 className="text-2xl font-bold">Session Debrief</h4>
+                        <p className="text-white/60 mt-2 font-light">AI-generated summary of your 18-minute session.</p>
+                      </div>
+
+                      <div className="space-y-4 relative">
+                        <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Key Takeaways Covered</div>
+                        <ul className="space-y-4 text-base sm:text-lg font-light text-white/80 list-disc pl-5">
+                          <motion.li initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>Distinction between optimistic and pessimistic locking in high-throughput databases.</motion.li>
+                          <motion.li initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}>Why Two-Phase Locking (2PL) guarantees serializability but introduces deadlock risks.</motion.li>
+                          <motion.li initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}>Multi-Version Concurrency Control (MVCC) snapshot isolation tradeoffs.</motion.li>
+                        </ul>
                       </div>
                     </div>
-                  </div>
-                </div>
-              )}
+                  )}
 
-              {activeTab === 'debrief' && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-xl font-bold text-white">Instant Session Debrief</h4>
-                      <p className="text-sm text-slate-400 mt-1">AI-generated summary and identified knowledge gaps right after you hang up.</p>
+                  {activeTab === 'flashcards' && (
+                    <div className="space-y-8 text-center flex flex-col items-center justify-center h-full">
+                      <div className="text-xs font-bold uppercase tracking-widest text-white/50">
+                        Spaced Repetition &mdash; Due Today
+                      </div>
+                      <h4 className="text-2xl sm:text-4xl font-bold leading-tight max-w-lg">
+                        "What prevents phantom reads in PostgreSQL under Repeatable Read isolation?"
+                      </h4>
+                      <motion.p animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 2, repeat: Infinity }} className="text-white/40 italic text-sm mt-8">Tap to reveal answer</motion.p>
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono text-white">
-                      Auto-Generated
-                    </span>
-                  </div>
+                  )}
 
-                  <div className="p-5 rounded-2xl bg-[#01001a] border border-white/10 space-y-4 text-sm text-slate-300">
-                    <div className="flex items-center gap-2 text-white font-semibold">
-                      <BookmarkCheck className="w-4 h-4 text-white" />
-                      <span>Key Takeaways Covered (18 min session)</span>
-                    </div>
-                    <ul className="space-y-2 text-xs sm:text-sm text-slate-300 list-disc pl-5">
-                      <li>Distinction between optimistic and pessimistic locking in high-throughput databases.</li>
-                      <li>Why Two-Phase Locking (2PL) guarantees serializability but introduces deadlock risks.</li>
-                      <li>Multi-Version Concurrency Control (MVCC) snapshot isolation tradeoffs.</li>
-                    </ul>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === 'flashcards' && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-xl font-bold text-white">Spaced-Repetition (SM-2) Flashcards</h4>
-                      <p className="text-sm text-slate-400 mt-1">Converts difficult discussion topics into daily retention cards.</p>
-                    </div>
-                    <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono text-white">
-                      Anki Algorithm
-                    </span>
-                  </div>
-
-                  <div className="p-6 rounded-2xl bg-[#1c0d48] border border-white/20 text-center space-y-4">
-                    <p className="text-xs uppercase tracking-widest text-slate-300 font-semibold">Card 1 of 6 • Due Today</p>
-                    <p className="text-base sm:text-lg font-bold text-white">
-                      "What prevents phantom reads in PostgreSQL under Repeatable Read isolation?"
-                    </p>
-                    <p className="text-xs text-slate-400 italic">Tap to reveal answer & rate retention difficulty (Easy / Good / Hard)</p>
-                  </div>
-                </div>
-              )}
-
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </section>
   );

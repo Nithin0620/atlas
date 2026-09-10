@@ -1,174 +1,157 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Volume2, ArrowRight, Sparkles } from 'lucide-react';
-import Link from 'next/link';
+import { Bot, Code2, Globe, BrainCircuit, Activity } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function MentorShowcase() {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activePersona, setActivePersona] = useState(0);
 
-  const mentors = [
+  const personas = [
     {
-      id: '1',
-      name: 'Dr. Elena Rostova',
-      role: 'Quantum Physics & Relativity',
-      category: 'physics',
-      style: 'Socratic Method',
-      difficulty: 'Advanced',
-      avatar: '⚛️',
-      description: 'Challenges your fundamental assumptions through guided inquiry and thought experiments.',
-      voiceAccent: 'Warm & Precise',
+      name: 'Alan Turing',
+      role: 'Computer Science & Mathematics',
+      style: 'Socratic, analytical, and rigorous.',
+      icon: <BrainCircuit className="w-6 h-6 text-primary-dark" />,
+      greeting: "Let's break down this algorithm. What is the fundamental time complexity here, and how can we optimize the bottleneck?",
     },
     {
-      id: '2',
-      name: 'Marcus Vance',
-      role: 'Distributed Systems & Go',
-      category: 'engineering',
-      style: 'Architectural Coach',
-      difficulty: 'Intermediate',
-      avatar: '⚡',
-      description: 'Focuses on concurrency primitives, Raft consensus, and failure-mode resilience.',
-      voiceAccent: 'Clear & Energetic',
+      name: 'Marie Curie',
+      role: 'Physics & Chemistry',
+      style: 'Direct, empirical, and encouraging.',
+      icon: <Activity className="w-6 h-6 text-primary-dark" />,
+      greeting: "Observe the reaction carefully. Can you derive the half-life equation based on the decay constant we just calculated?",
     },
     {
-      id: '3',
-      name: 'Sofia Al-Mansoor',
-      role: 'Cognitive Neuroscience',
-      category: 'neuro',
-      style: 'Storyteller & Visualizer',
-      difficulty: 'Beginner to Pro',
-      avatar: '🧠',
-      description: 'Breaks down synaptic plasticity, neurotransmitters, and memory consolidation through relatable analogies.',
-      voiceAccent: 'Calm & Engaging',
+      name: 'Grace Hopper',
+      role: 'Systems & Architecture',
+      style: 'Practical, structured, and clear.',
+      icon: <Code2 className="w-6 h-6 text-primary-dark" />,
+      greeting: "When designing this microservice, have you considered how the database locks will behave under high concurrent throughput?",
     },
     {
-      id: '4',
-      name: 'Julian Chen',
-      role: 'Macroeconomics & Game Theory',
-      category: 'economics',
-      style: 'Debate & Case Studies',
-      difficulty: 'Intermediate',
-      avatar: '📈',
-      description: 'Simulates market incentives, Nash equilibria, and monetary policy impacts.',
-      voiceAccent: 'Dynamic & Sharp',
+      name: 'Polyglot',
+      role: 'Language Acquisition',
+      style: 'Immersive, patient, and conversational.',
+      icon: <Globe className="w-6 h-6 text-primary-dark" />,
+      greeting: "¡Hola! Let's practice conjugating the subjunctive today. Don't worry about mistakes, just try to keep the flow of conversation.",
     },
   ];
 
-  const filteredMentors =
-    activeCategory === 'all'
-      ? mentors
-      : mentors.filter((m) => m.category === activeCategory);
-
   return (
-    <section id="mentors" className="relative py-24 md:py-32 bg-[#01001a]">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-sky-600/[0.07] rounded-full blur-[140px] pointer-events-none" />
+    <section id="mentors" className="relative py-24 md:py-32 bg-white text-primary-dark overflow-hidden">
+
+      {/* Animated Floating Geometric Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+         <motion.div animate={{ rotate: [0, 90, 0] }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }} className="w-[80vw] h-[80vw] border-[0.5px] border-primary-dark/[0.03] absolute top-[-20%] right-[-20%] transform rotate-45" />
+      </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-widest text-sky-300">
-            <span>01 &middot; PERSONALIZED INTELLIGENCE</span>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as any }}
+          className="max-w-3xl mb-20"
+        >
+          <div className="inline-flex items-center gap-2 mb-6 text-sm font-bold uppercase tracking-widest text-primary-dark/50">
+            <span>01 &mdash; Personas</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Meet Your Specialized AI Mentors
+          <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+            Curated Intelligence. <br/>
+            Infinite Patience.
           </h2>
-          <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Switch seamlessly between tailored personas. Each mentor adapts their pedagogy, pacing, and tone to your unique learning style.
+          <p className="text-lg sm:text-xl text-primary-dark/60 mt-6 font-light leading-relaxed">
+            Select a mentor perfectly tailored to your learning style. From rigorous Socratic questioning to patient, conversational immersion.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Category Filter Pills */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
-          {[
-            { id: 'all', label: 'All Fields' },
-            { id: 'physics', label: 'Quantum & Physics' },
-            { id: 'engineering', label: 'Software Architecture' },
-            { id: 'neuro', label: 'Neuroscience' },
-            { id: 'economics', label: 'Game Theory & Econ' },
-          ].map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 ${
-                activeCategory === cat.id
-                  ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/20'
-                  : 'bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] border border-white/[0.08]'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 relative">
 
-        {/* Mentors Grid */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredMentors.map((mentor) => (
-            <div
-              key={mentor.id}
-              className="rounded-2xl glass-card p-6 sm:p-7 transition-all duration-200 flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-2xl">
-                      {mentor.avatar}
-                    </div>
+          {/* Persona List */}
+          <div className="lg:col-span-5 flex flex-col justify-center space-y-4">
+            {personas.map((persona, idx) => (
+              <motion.button
+                key={idx}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] as any }}
+                onClick={() => setActivePersona(idx)}
+                className={`group relative flex items-start gap-5 p-6 rounded-2xl transition-all duration-300 text-left w-full overflow-hidden ${
+                  activePersona === idx
+                    ? 'bg-primary-dark/[0.03] scale-100 opacity-100'
+                    : 'bg-transparent scale-95 opacity-50 hover:opacity-100 hover:bg-primary-dark/[0.01]'
+                }`}
+              >
+                {activePersona === idx && (
+                   <motion.div
+                     layoutId="activePersonaBg"
+                     className="absolute inset-0 bg-primary-dark/[0.03] rounded-2xl"
+                     initial={false}
+                     transition={{ duration: 0.4, ease: "easeInOut" }}
+                   />
+                )}
+                <div className="mt-1 relative z-10">
+                  <motion.div animate={activePersona === idx ? { y: [-3, 3, -3] } : {}} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}>
+                    {persona.icon}
+                  </motion.div>
+                </div>
+                <div className="relative z-10">
+                  <h3 className="text-xl font-bold text-primary-dark">{persona.name}</h3>
+                  <p className="text-sm font-medium text-primary-dark/60 mt-1">{persona.role}</p>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Persona Details / Demo */}
+          <div className="lg:col-span-7 flex items-center">
+            <div className="w-full relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activePersona}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as any }}
+                  className="bg-primary-dark/[0.02] p-8 sm:p-12 rounded-[2rem] border border-primary-dark/5 relative overflow-hidden"
+                >
+                  {/* Subtle pulsing background within card */}
+                  <motion.div animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-0 right-0 w-32 h-32 bg-primary-dark/5 rounded-bl-full" />
+
+                  <div className="flex items-center gap-4 mb-8 relative z-10">
+                    <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }} className="w-12 h-12 rounded-full bg-primary-dark flex items-center justify-center text-white">
+                      <Bot className="w-6 h-6" />
+                    </motion.div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">{mentor.name}</h3>
-                      <p className="text-sm font-semibold text-sky-400">{mentor.role}</p>
+                      <h4 className="text-xl font-bold">{personas[activePersona].name}</h4>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="w-2 h-2 rounded-full bg-primary-dark animate-pulse" />
+                        <span className="text-xs font-mono uppercase tracking-widest text-primary-dark/60">Voice Active</span>
+                      </div>
                     </div>
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-white/[0.06] text-xs font-bold text-slate-300 border border-white/[0.08]">
-                    {mentor.difficulty}
-                  </span>
-                </div>
 
-                <p className="mt-4 text-sm text-slate-400 leading-relaxed">{mentor.description}</p>
+                  <div className="space-y-8 relative z-10">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-primary-dark/40 mb-2">Teaching Style</p>
+                      <p className="text-lg font-medium">{personas[activePersona].style}</p>
+                    </div>
 
-                <div className="mt-6 flex flex-wrap gap-2 text-xs">
-                  <span className="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] font-medium text-slate-300">
-                    Style: <strong className="text-white">{mentor.style}</strong>
-                  </span>
-                  <span className="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] font-medium text-slate-300">
-                    Voice: <strong className="text-white">{mentor.voiceAccent}</strong>
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-5 border-t border-white/[0.06] flex items-center justify-between">
-                <button className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white transition-colors duration-200">
-                  <Volume2 className="w-4 h-4" />
-                  <span>Sample Voice</span>
-                </button>
-                <Link
-                  href="/sign-up"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-400 hover:text-sky-300 group/link transition-colors duration-200"
-                >
-                  <span>Start Voice Call</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1" />
-                </Link>
-              </div>
+                    <div className="pl-6 border-l-2 border-primary-dark/10 relative overflow-hidden">
+                      <p className="text-xs font-bold uppercase tracking-widest text-primary-dark/40 mb-2">Example Audio Response</p>
+                      <p className="text-xl sm:text-2xl font-light italic leading-relaxed text-primary-dark/80">
+                        "{personas[activePersona].greeting}"
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
-          ))}
-        </div>
-
-        {/* Custom Mentor Studio Banner */}
-        <div className="mt-12 p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-sky-950/40 via-[#01001a] to-indigo-950/30 border border-white/[0.06] flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center md:text-left">
-            <h4 className="text-xl sm:text-2xl font-bold flex items-center justify-center md:justify-start gap-2 text-white">
-              <Sparkles className="w-5 h-5 text-sky-400" />
-              <span>Create Your Custom AI Mentor Studio</span>
-            </h4>
-            <p className="text-sm text-slate-400 max-w-xl leading-relaxed">
-              Upload custom PDFs, syllabus guidelines, and configure custom system prompts with over 50+ hyper-realistic voice profiles.
-            </p>
           </div>
-          <Link
-            href="/sign-up"
-            className="whitespace-nowrap px-6 py-3.5 rounded-xl text-sm font-bold glass-button-white"
-          >
-            Launch Mentor Studio
-          </Link>
+
         </div>
       </div>
     </section>
