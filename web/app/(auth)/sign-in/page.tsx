@@ -40,7 +40,7 @@ export default function SignInPage() {
         </Link>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400">Don't have an account?</span>
+          <span className="text-xs text-slate-400">Don&apos;t have an account?</span>
           <Link
             href="/sign-up"
             className="text-xs font-bold text-white hover:underline transition-colors"
