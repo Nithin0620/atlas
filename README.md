@@ -22,13 +22,12 @@ Atlas connects learners with personalized, real-time AI mentors tailored to any 
 
 See [`plan.md`](./plan.md) for the complete architecture and step-by-step implementation plan.
 
----
-
 ## 🛠️ Tech Stack
 
-- **Monorepo:** [Turborepo](https://turbo.build/)
-- **Web App:** [Next.js](https://nextjs.org/) + [Tailwind CSS](https://tailwindcss.com/)
-- **Mobile App:** [Expo](https://expo.dev/) (React Native)
+- **Monorepo:** [Turborepo](https://turbo.build/) (`web/`, `mobile/`, `packages/`)
+- **Web & REST API:** [Next.js](https://nextjs.org/) App Router (Web UI + REST endpoints under `/api/*`)
+- **State Management:** [Zustand](https://zustand.docs.pmnd.rs/)
+- **Mobile App:** [React Native](https://reactnative.dev/) / [Expo](https://expo.dev/) (Expo Router)
+- **Database:** [MongoDB](https://www.mongodb.com/) (Mongoose)
 - **Voice Engine:** [Vapi AI](https://vapi.ai/)
-- **Database & Vector Memory:** [Supabase PostgreSQL](https://supabase.com/)
 - **Auth:** [Clerk](https://clerk.com/)

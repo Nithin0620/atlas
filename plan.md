@@ -1,6 +1,6 @@
 # Atlas — Project Plan
 
-Voice-powered AI learning platform across **Web** and **Mobile** (iOS & Android), inspired by Nexora and elevated with real-time visual companions, long-term memory, and automated session debriefs.
+Voice-powered AI learning platform across **Web** and **Mobile** (iOS & Android), elevated with real-time visual companions, long-term memory, and automated session debriefs.
 
 ---
 
@@ -17,17 +17,18 @@ Voice-powered AI learning platform across **Web** and **Mobile** (iOS & Android)
 
 ---
 
-## 2. Recommended Tech Stack
+## 2. Tech Stack
 
 | Layer | Technology | Role |
 |---|---|---|
-| **Monorepo** | **Turborepo** | Unified codebase sharing types, schemas, and API clients |
-| **Web App** | **Next.js (App Router)** | Desktop UI, responsive dashboard, SEO, Web voice calls |
-| **Mobile App** | **Expo / React Native** | iOS & Android native apps with native WebRTC audio |
+| **Monorepo** | **Turborepo** | Monorepo orchestrator managing `web`, `app`, and `packages` |
+| **Web & REST API** | **Next.js 15+ (App Router)** | Web dashboard + REST Route Handlers (`/api/*`) consumed by Web & Mobile |
+| **State Management** | **Zustand** | Client-side state (call session, active mentor, user preferences) |
+| **Mobile App** | **React Native / Expo** | iOS & Android native apps calling Next.js REST endpoints & WebRTC audio |
 | **Voice Engine** | **Vapi AI** | Full-duplex speech-to-speech engine (Deepgram + LLMs + ElevenLabs/Cartesia) |
-| **Database & Storage** | **Supabase (PostgreSQL)** | Relational tables, Row-Level Security (RLS), Vector embeddings (pgvector) |
-| **Authentication** | **Clerk** | Unified auth across Web (`@clerk/nextjs`) and Mobile (`@clerk/clerk-expo`) |
-| **Monetization** | **Stripe** + **RevenueCat** | Stripe for Web checkout; RevenueCat for iOS App Store & Google Play In-App Purchases |
+| **Database** | **MongoDB (Mongoose)** | Document store for users, mentors, sessions, and flashcards |
+| **Authentication** | **Clerk** | Unified auth across Web and Mobile |
+| **Monetization** | **Stripe** + **RevenueCat** | Stripe for Web; RevenueCat for iOS App Store & Google Play |
 
 ---
 
@@ -35,16 +36,42 @@ Voice-powered AI learning platform across **Web** and **Mobile** (iOS & Android)
 
 ```
 atlas/
-├── apps/
-│   ├── web/               # Next.js 15+ App Router
-│   └── mobile/            # React Native / Expo app
+├── web/                             # Next.js 15+ (Web UI + REST API Endpoints)
+│   ├── app/
+│   │   ├── (auth)/                  # Auth pages
+│   │   ├── (dashboard)/             # Main dashboard
+│   │   ├── api/                     # Shared REST Route Handlers
+│   │   │   ├── auth/                # /api/auth/*
+│   │   │   ├── mentors/             # /api/mentors/* (CRUD)
+│   │   │   ├── sessions/            # /api/sessions/* (history, summaries)
+│   │   │   ├── voice/               # /api/voice/* (tokens, webhooks)
+│   │   │   └── flashcards/          # /api/flashcards/*
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── lib/
+│   │   ├── db/                      # Cached MongoDB / Mongoose connection
+│   │   └── models/                  # Mongoose Schemas (Mentor, Session, User, Flashcard)
+│   ├── stores/                      # Zustand state stores (useVoiceStore, useMentorStore)
+│   └── components/                  # Web UI components
+│
+├── mobile/                          # Expo (React Native)
+│   ├── app/                         # Expo Router file-based navigation
+│   │   ├── (tabs)/                  # Tab screens (Home, Mentors, History, Profile)
+│   │   ├── call/                    # Active voice call screen
+│   │   └── _layout.tsx
+│   ├── components/                  # Native UI components
+│   ├── stores/                      # Mobile Zustand stores
+│   ├── lib/
+│   │   ├── api.ts                   # HTTP client calling Next.js REST endpoints
+│   │   └── voice.ts                 # Vapi React Native / WebRTC integration
+│   └── package.json
+│
 ├── packages/
-│   ├── api/               # Supabase client SDK & shared database queries
-│   ├── types/             # Shared TypeScript interfaces & Zod validation schemas
-│   └── config/            # Shared ESLint, Prettier, and TypeScript configurations
-├── supabase/              # Supabase migrations, RLS policies, and seed data
-├── plan.md                # Project roadmap and strategic plan
-└── README.md              # Project overview and setup instructions
+│   └── types/                       # Shared TypeScript interfaces & DTOs
+│
+├── turbo.json                       # Turborepo build pipeline
+├── package.json                     # Root workspace configuration
+└── README.md
 ```
 
 ---
