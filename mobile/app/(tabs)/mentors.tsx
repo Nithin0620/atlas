@@ -15,7 +15,8 @@ export default function MentorsScreen() {
         setLoading(true);
         const data = await fetchMentors();
         setMentors(data);
-      } catch (e) {
+      } catch (e: any) {
+        console.error(e);
         // Fallback or handle offline
       } finally {
         setLoading(false);

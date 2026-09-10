@@ -9,7 +9,7 @@ export function VoiceHeroDemo() {
   const [activeStep, setActiveStep] = useState(0);
   const [speakingRole, setSpeakingRole] = useState<'idle' | 'user' | 'assistant'>('idle');
 
-  const simulationSteps = [
+  const simulationSteps = React.useMemo(() => ([
     {
       role: 'user',
       text: '"Hey Atlas, how does backpropagation update weights in a deep neural network?"',
@@ -35,7 +35,7 @@ export function VoiceHeroDemo() {
         tag: 'Python / PyTorch',
       },
     },
-  ];
+  ]), []);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -48,17 +48,19 @@ export function VoiceHeroDemo() {
         });
       }, 3500);
     } else {
-      setSpeakingRole('idle');
-      setActiveStep(0);
+      // do not setState directly in useEffect else block
     }
     return () => clearInterval(interval);
-  }, [isActive]);
+  }, [isActive, simulationSteps]);
 
   const toggleSimulation = () => {
     const nextState = !isActive;
     setIsActive(nextState);
     if (nextState) {
       setSpeakingRole('user');
+      setActiveStep(0);
+    } else {
+      setSpeakingRole('idle');
       setActiveStep(0);
     }
   };
@@ -214,7 +216,7 @@ export function VoiceHeroDemo() {
                       </div>
                     ) : (
                       <div className="mt-2 p-3 rounded-xl bg-[#01001a]/60 border border-white/[0.04] font-mono text-xs text-slate-400">
-                        <code>// Code snippets, LaTeX formulas, and visual diagrams stream instantly as you talk</code>
+                        <code>{"// Code snippets, LaTeX formulas, and visual diagrams stream instantly as you talk"}</code>
                       </div>
                     )}
                   </div>

@@ -13,7 +13,10 @@
     "dev:web": "npm run dev --workspace=web",
     "build": "turbo build",
     "build:web": "npm run build --workspace=web",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "test:web": "npm run test --workspace=web",
+    "test:mobile": "echo 'no mobile test configured yet'",
+    "test": "npm run test:web && npm run test:mobile"
   },
   "devDependencies": {
     "turbo": "^2.0.0"
