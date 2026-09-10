@@ -107,15 +107,9 @@ export function LiveCompanionDemo() {
                           </span>
                           <span className="text-xs font-mono">Time Complexity</span>
                         </div>
-                        <div className="bg-[#01001a]/80 p-6 rounded-xl font-mono text-sm text-white/80 border border-white/10 relative overflow-hidden">
-                          {/* Scanning Line */}
-                          <motion.div
-                            animate={{ top: ['0%', '100%'] }}
-                            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                            className="absolute left-0 right-0 h-16 bg-gradient-to-b from-transparent to-white/5 pointer-events-none"
-                          />
+                        <div className="bg-[#01001a]/80 p-6 rounded-xl font-mono text-sm text-white/80 border border-white/10 relative overflow-hidden flex items-center">
                           <code>O((V + E) log V) with Min-Heap Priority Queue</code>
-                          <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.5, repeat: Infinity }} className="inline-block w-2 h-4 bg-white/50 ml-1 align-middle" />
+                          <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 1, repeat: Infinity }} className="inline-block w-2 h-4 bg-white/70 ml-1" />
                         </div>
                       </div>
                     </div>

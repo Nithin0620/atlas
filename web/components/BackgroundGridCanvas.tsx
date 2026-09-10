@@ -33,44 +33,22 @@ export function BackgroundGridCanvas() {
       />
 
       {/* Cinematic Orbital Lines */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.03]">
+      <svg className="absolute inset-0 w-full h-full opacity-[0.05]">
         <motion.circle
-          cx="50%" cy="50%" r="30vw"
-          fill="none" stroke="white" strokeWidth="1" strokeDasharray="4 8"
+          cx="50%" cy="50%" r="40vw"
+          fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="1 12"
           animate={{ rotate: 360 }}
-          transition={{ duration: 150, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
           style={{ originX: '50%', originY: '50%' }}
         />
         <motion.circle
-          cx="50%" cy="50%" r="45vw"
-          fill="none" stroke="white" strokeWidth="1" strokeDasharray="1 12"
+          cx="50%" cy="50%" r="55vw"
+          fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="2 24"
           animate={{ rotate: -360 }}
-          transition={{ duration: 200, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
           style={{ originX: '50%', originY: '50%' }}
         />
       </svg>
-
-      {/* Slowly Drifting Data Nodes */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          animate={{
-            y: ['0vh', '100vh'],
-            opacity: [0, 0.2, 0],
-          }}
-          transition={{
-            duration: Math.random() * 20 + 20,
-            repeat: Infinity,
-            delay: Math.random() * 10,
-            ease: 'linear',
-          }}
-          className="absolute w-px h-24 bg-gradient-to-b from-transparent via-white to-transparent"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: '-10vh',
-          }}
-        />
-      ))}
     </div>
   );
 }

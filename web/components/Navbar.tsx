@@ -21,12 +21,10 @@ export function Navbar() {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 flex justify-center px-4 py-4 md:px-8 ${
-        scrolled ? 'bg-primary-dark/95 backdrop-blur-md border-b border-white/10 py-3' : 'bg-transparent'
-      }`}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as any }}
+      className={`fixed top-4 left-0 right-0 z-50 transition-colors duration-500 flex justify-center px-4 md:px-8`}
     >
-      <div className="w-full max-w-6xl flex items-center justify-between">
+      <div className={`w-full max-w-5xl flex items-center justify-between px-6 py-3 rounded-full transition-all duration-300 ${scrolled ? 'glass-nav shadow-lg' : 'bg-transparent'}`}>
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-white text-primary-dark p-[1px] transition-transform duration-300 group-hover:scale-110">
@@ -89,7 +87,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="absolute top-full left-0 right-0 bg-primary-dark border-b border-white/10 md:hidden overflow-hidden"
+            className="absolute top-full left-0 right-0 bg-primary-dark border-b border-white/10 md:hidden overflow-hidden mt-2 rounded-2xl mx-4 glass-nav"
           >
             <div className="px-4 py-6 flex flex-col gap-4">
               <Link

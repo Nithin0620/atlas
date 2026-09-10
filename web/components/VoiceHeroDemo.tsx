@@ -121,12 +121,15 @@ export function VoiceHeroDemo() {
             { label: 'True Cross-Platform' },
             { label: 'Long-Term Memory' },
           ].map((item, idx) => (
-            <div key={idx} className="flex items-center gap-3 text-white/70">
-              <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity, delay: idx * 0.5 }}>
-                 <Activity className="w-4 h-4" />
-              </motion.div>
+            <motion.div
+              key={idx}
+              animate={{ y: [-5, 5, -5] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: idx * 0.5 }}
+              className="flex items-center gap-3 text-white/70"
+            >
+              <Activity className="w-4 h-4" />
               <span className="text-sm font-medium">{item.label}</span>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>
