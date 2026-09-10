@@ -49,105 +49,36 @@
     contain: layout paint;
   }
 
-  .glass-nav {
-    background: rgba(1, 0, 26, 0.8);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .glass-card {
-    background: rgba(15, 5, 50, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: border-color 0.2s ease, background 0.2s ease;
-  }
-
-  .glass-card:hover {
-    border-color: rgba(255, 255, 255, 0.16);
-    background: rgba(20, 8, 60, 0.7);
-  }
-
-  .glass-input {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-  }
-
-  .glass-input:focus {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
-    outline: none;
-  }
-
-  .glass-button-white {
+  .btn-premium {
     background: #ffffff;
     color: #01001a;
     font-weight: 600;
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .glass-button-white:hover {
-    background: #f1f5f9;
-    box-shadow: 0 6px 30px rgba(255, 255, 255, 0.35);
-    transform: translateY(-1px);
+  .btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
   }
 
-  .glass-button-white:active {
+  .btn-premium:active {
     transform: translateY(0) scale(0.98);
   }
 
-  .glass-button-glow {
-    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #6366f1 100%);
-    box-shadow: 0 0 20px -4px rgba(56, 189, 248, 0.4);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  .btn-premium-dark {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .glass-button-glow:hover {
-    box-shadow: 0 0 30px 0px rgba(56, 189, 248, 0.6);
-    transform: translateY(-1px);
+  .btn-premium-dark:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.05);
   }
 
-  .glass-button-glow:active {
-    transform: translateY(0) scale(0.98);
+  .btn-premium-dark:active {
+    transform: scale(0.98);
   }
-
-  .grid-bg-animated {
-    background-size: 48px 48px;
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  }
-
-  .shimmer-text {
-    background: linear-gradient(90deg, #ffffff 0%, #38bdf8 30%, #ffffff 60%, #818cf8 80%, #ffffff 100%);
-    background-size: 200% auto;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: shimmer 4s ease-in-out infinite;
-  }
-
-  .shimmer-text-white {
-    background: linear-gradient(90deg, #ffffff 0%, #38bdf8 30%, #ffffff 60%, #a78bfa 80%, #ffffff 100%);
-    background-size: 200% auto;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: shimmer 4s ease-in-out infinite;
-  }
-}
-
-@layer utilities {
-  .section-blend-both {
-    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-  }
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
 }

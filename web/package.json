@@ -12,6 +12,7 @@
     "@atlas/types": "*",
     "@vapi-ai/web": "^2.1.0",
     "clsx": "^2.1.1",
+    "framer-motion": "^13.2.0",
     "lucide-react": "^0.475.0",
     "mongoose": "^8.9.5",
     "next": "^15.1.0",
