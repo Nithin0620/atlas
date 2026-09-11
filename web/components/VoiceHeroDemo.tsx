@@ -9,7 +9,7 @@ export function VoiceHeroDemo() {
   const [activeStep, setActiveStep] = useState(0);
   const [speakingRole, setSpeakingRole] = useState<'idle' | 'user' | 'assistant'>('idle');
 
-  const simulationSteps = [
+  const simulationSteps = React.useMemo(() => ([
     {
       role: 'user',
       text: '"Hey Atlas, how does backpropagation calculate gradients in a deep neural network?"',
@@ -35,7 +35,7 @@ export function VoiceHeroDemo() {
         tag: 'Python / PyTorch',
       },
     },
-  ];
+  ]), []);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -47,18 +47,18 @@ export function VoiceHeroDemo() {
           return next;
         });
       }, 3500);
-    } else {
-      setSpeakingRole('idle');
-      setActiveStep(0);
     }
     return () => clearInterval(interval);
-  }, [isActive]);
+  }, [isActive, simulationSteps]);
 
   const toggleSimulation = () => {
     const nextState = !isActive;
     setIsActive(nextState);
     if (nextState) {
       setSpeakingRole('user');
+      setActiveStep(0);
+    } else {
+      setSpeakingRole('idle');
       setActiveStep(0);
     }
   };

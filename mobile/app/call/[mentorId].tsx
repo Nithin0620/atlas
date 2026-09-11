@@ -14,7 +14,7 @@ export default function CallScreen() {
     return () => {
       resetCall();
     };
-  }, [mentorId]);
+  }, [mentorId, setStatus, resetCall]);
 
   const handleEndCall = () => {
     resetCall();

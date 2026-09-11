@@ -86,7 +86,7 @@ export function LiveCompanionDemo() {
                       <span>0:14s</span>
                     </div>
                     <p className="text-xs sm:text-sm text-slate-800 italic leading-relaxed">
-                      "Notice how Dijkstra’s algorithm selects the unvisited node with the smallest tentative distance..."
+                      &quot;Notice how Dijkstra’s algorithm selects the unvisited node with the smallest tentative distance...&quot;
                     </p>
                   </div>
 
@@ -144,7 +144,7 @@ export function LiveCompanionDemo() {
                 <div className="p-8 rounded-2xl bg-black text-white text-center space-y-4">
                   <p className="text-xs uppercase tracking-widest text-neutral-400 font-semibold">Card 1 of 6 • Due Today</p>
                   <p className="text-base sm:text-lg font-bold text-white max-w-lg mx-auto leading-relaxed">
-                    "What prevents phantom reads in PostgreSQL under Repeatable Read isolation?"
+                    &quot;What prevents phantom reads in PostgreSQL under Repeatable Read isolation?&quot;
                   </p>
                   <p className="text-xs text-neutral-400 italic">Tap to reveal answer & rate retention difficulty (Easy / Good / Hard)</p>
                 </div>

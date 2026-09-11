@@ -64,7 +64,7 @@ export default function SignInPage() {
           </Link>
 
           <div className="flex items-center gap-1.5 text-xs">
-            <span className="text-slate-500">Don't have an account?</span>
+            <span className="text-slate-500">Don&apos;t have an account?</span>
             <Link
               href="/sign-up"
               className="font-bold text-black hover:underline transition-colors"
