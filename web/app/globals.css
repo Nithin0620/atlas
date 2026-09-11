@@ -4,150 +4,113 @@
 
 @layer base {
   :root {
-    --background: #01001a;
-    --foreground: #ffffff;
+    --background: #ffffff;
+    --foreground: #000000;
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: #01001a;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #000000;
     overflow-x: hidden;
   }
 
-  *,
-  *::before,
-  *::after {
-    will-change: auto;
+  ::selection {
+    background-color: #000000;
+    color: #ffffff;
   }
 
   ::-webkit-scrollbar {
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #01001a;
+    background: #ffffff;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1a0a40;
-    border-radius: 3px;
+    background: #e2e8f0;
+    border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #2e1672;
+    background: #cbd5e1;
   }
 }
 
 @layer components {
-  .gpu-layer {
-    transform: translateZ(0);
-    will-change: transform;
-    contain: layout paint;
+  .modern-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .glass-nav {
-    background: rgba(1, 0, 26, 0.8);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .modern-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
   }
 
-  .glass-card {
-    background: rgba(15, 5, 50, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: border-color 0.2s ease, background 0.2s ease;
+  .modern-btn-black {
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .glass-card:hover {
-    border-color: rgba(255, 255, 255, 0.16);
-    background: rgba(20, 8, 60, 0.7);
+  .modern-btn-black:hover {
+    background: #1e293b;
+    border-color: #1e293b;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
   }
 
-  .glass-input {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+  .modern-btn-black:active {
+    transform: translateY(0) scale(0.98);
   }
 
-  .glass-input:focus {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+  .modern-btn-outline {
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .modern-btn-outline:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #000000;
+  }
+
+  .modern-btn-outline:active {
+    transform: scale(0.98);
+  }
+
+  .modern-input {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #0f172a;
+    transition: all 0.2s ease;
+  }
+
+  .modern-input:focus {
+    background: #ffffff;
+    border-color: #000000;
+    box-shadow: 0 0 0 1px #000000;
     outline: none;
   }
 
-  .glass-button-white {
-    background: #ffffff;
-    color: #01001a;
-    font-weight: 600;
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-  }
-
-  .glass-button-white:hover {
-    background: #f1f5f9;
-    box-shadow: 0 6px 30px rgba(255, 255, 255, 0.35);
-    transform: translateY(-1px);
-  }
-
-  .glass-button-white:active {
-    transform: translateY(0) scale(0.98);
-  }
-
-  .glass-button-glow {
-    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #6366f1 100%);
-    box-shadow: 0 0 20px -4px rgba(56, 189, 248, 0.4);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .glass-button-glow:hover {
-    box-shadow: 0 0 30px 0px rgba(56, 189, 248, 0.6);
-    transform: translateY(-1px);
-  }
-
-  .glass-button-glow:active {
-    transform: translateY(0) scale(0.98);
-  }
-
-  .grid-bg-animated {
-    background-size: 48px 48px;
+  .grid-bg-modern {
+    background-size: 40px 40px;
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   }
-
-  .shimmer-text {
-    background: linear-gradient(90deg, #ffffff 0%, #38bdf8 30%, #ffffff 60%, #818cf8 80%, #ffffff 100%);
-    background-size: 200% auto;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: shimmer 4s ease-in-out infinite;
-  }
-
-  .shimmer-text-white {
-    background: linear-gradient(90deg, #ffffff 0%, #38bdf8 30%, #ffffff 60%, #a78bfa 80%, #ffffff 100%);
-    background-size: 200% auto;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: shimmer 4s ease-in-out infinite;
-  }
-}
-
-@layer utilities {
-  .section-blend-both {
-    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-  }
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
 }

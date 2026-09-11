@@ -1,66 +1,40 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X, Sparkles } from 'lucide-react';
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isHoveringNav, setIsHoveringNav] = useState(false);
-  const navRef = useRef<HTMLDivElement | null>(null);
-  const lightRef = useRef<HTMLDivElement | null>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!navRef.current || !lightRef.current) return;
-    const rect = navRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    lightRef.current.style.background = `radial-gradient(180px circle at ${x}px ${y}px, rgba(255, 255, 255, 0.18), transparent 80%)`;
-  };
 
   return (
-    <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 md:px-8">
-      <div
-        ref={navRef}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHoveringNav(true)}
-        onMouseLeave={() => setIsHoveringNav(false)}
-        className="relative w-full max-w-5xl rounded-full glass-nav px-5 py-3 transition-colors duration-200 hover:border-white/30"
-      >
-        {/* Specular White Mouse Tracking Light */}
-        <div
-          ref={lightRef}
-          className={`pointer-events-none absolute -inset-px rounded-full transition-opacity duration-200 ${
-            isHoveringNav ? 'opacity-100' : 'opacity-0'
-          }`}
-        />
-
-        <div className="relative flex items-center justify-between">
+    <header className="fixed top-5 left-0 right-0 z-50 flex justify-center px-4 md:px-8">
+      <div className="relative w-full max-w-5xl rounded-full bg-white/85 backdrop-blur-xl border border-neutral-200/90 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] px-5 py-2.5">
+        <div className="flex items-center justify-between">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-full bg-white text-[#01001a] p-[1px] shadow-lg shadow-white/20 group-hover:scale-105 transition-transform duration-200">
-              <span className="text-base font-black">🪐</span>
-              <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-400 shadow-sm shadow-sky-400/60" />
-              </span>
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-black text-white text-sm font-bold shadow-sm group-hover:scale-105 transition-transform">
+              ✦
             </div>
-            <span className="text-lg font-bold tracking-tight text-white">
+            <span className="text-lg font-bold tracking-tight text-slate-900 font-sans">
               Atlas
             </span>
           </Link>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 rounded-full bg-white/[0.04] p-1 border border-white/[0.08]">
+          <nav className="hidden md:flex items-center gap-1">
             {[
-              { label: 'AI Mentors', href: '#mentors' },
-              { label: 'Visual Companion', href: '#companion' },
-              { label: 'Features', href: '#features' },
-              { label: 'Architecture', href: '#architecture' },
+              { label: 'Features', href: '/features' },
+              { label: 'How it Works', href: '/how-it-works' },
+              { label: 'Pricing', href: '/pricing' },
+              { label: 'Contact', href: '/contact' },
+              { label: 'Privacy', href: '/privacy' },
+              { label: 'Terms', href: '/terms' },
             ].map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="px-4 py-1.5 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/[0.1] rounded-full transition-colors"
+                className="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-black hover:bg-neutral-100 rounded-full transition-all"
               >
                 {link.label}
               </a>
@@ -68,65 +42,86 @@ export function Navbar() {
           </nav>
 
           {/* Right CTAs */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3 text-sm">
             <Link
               href="/sign-in"
-              className="text-sm font-medium text-slate-300 hover:text-white px-3 py-1.5 transition-colors"
+              className="font-medium text-slate-600 hover:text-black px-3 py-1.5 transition-colors"
             >
               Sign In
             </Link>
             <Link
               href="/sign-up"
-              className="group relative inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold glass-button-white overflow-hidden"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full modern-btn-black text-xs font-semibold"
             >
               <span>Get Started</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-slate-300 hover:text-white p-1"
+            className="md:hidden text-slate-700 hover:text-black p-1"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pt-4 border-t border-white/10 flex flex-col gap-3 pb-2">
-            <a
-              href="#mentors"
+          <div className="md:hidden mt-3 pt-3 border-t border-neutral-100 flex flex-col gap-2 text-sm">
+            <Link
+              href="/features"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 rounded-lg"
-            >
-              AI Mentors
-            </a>
-            <a
-              href="#companion"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 rounded-lg"
-            >
-              Visual Companion
-            </a>
-            <a
-              href="#features"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 rounded-lg"
+              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
             >
               Features
-            </a>
+            </Link>
+            <Link
+              href="/how-it-works"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
+            >
+              How it Works
+            </Link>
+            <Link
+              href="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
+            >
+              Contact
+            </Link>
+            <Link
+              href="/privacy"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
+            >
+              Terms
+            </Link>
             <div className="pt-2 flex flex-col gap-2">
               <Link
                 href="/sign-in"
-                className="w-full text-center py-2.5 text-sm font-medium text-slate-200 bg-white/10 rounded-lg"
+                className="w-full text-center py-2.5 rounded-full border border-neutral-200 text-slate-900 font-medium"
               >
                 Sign In
               </Link>
               <Link
                 href="/sign-up"
-                className="w-full text-center py-2.5 text-sm font-semibold glass-button-white rounded-lg"
+                className="w-full text-center py-2.5 rounded-full modern-btn-black font-semibold text-xs"
               >
                 Get Started Free
               </Link>

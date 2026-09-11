@@ -15,7 +15,7 @@ export function MentorShowcase() {
       category: 'physics',
       style: 'Socratic Method',
       difficulty: 'Advanced',
-      avatar: '⚛️',
+      avatar: '⚛',
       description: 'Challenges your fundamental assumptions through guided inquiry and thought experiments.',
       voiceAccent: 'Warm & Precise',
     },
@@ -38,7 +38,7 @@ export function MentorShowcase() {
       style: 'Storyteller & Visualizer',
       difficulty: 'Beginner to Pro',
       avatar: '🧠',
-      description: 'Breaks down synaptic plasticity, neurotransmitters, and memory consolidation through relatable analogies.',
+      description: 'Breaks down synaptic plasticity, neurotransmitters, and memory consolidation through clear analogies.',
       voiceAccent: 'Calm & Engaging',
     },
     {
@@ -60,19 +60,18 @@ export function MentorShowcase() {
       : mentors.filter((m) => m.category === activeCategory);
 
   return (
-    <section id="mentors" className="relative py-24 md:py-32 bg-[#01001a]">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-sky-600/[0.07] rounded-full blur-[140px] pointer-events-none" />
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="mentors" className="relative py-24 md:py-32 bg-neutral-50/50 border-t border-neutral-200/80 text-slate-900">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-widest text-sky-300">
+          <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3.5 py-1.5 text-xs font-semibold tracking-wider text-slate-700 shadow-sm">
             <span>01 &middot; PERSONALIZED INTELLIGENCE</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight">
             Meet Your Specialized AI Mentors
           </h2>
-          <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Switch seamlessly between tailored personas. Each mentor adapts their pedagogy, pacing, and tone to your unique learning style.
           </p>
         </div>
@@ -89,10 +88,10 @@ export function MentorShowcase() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
                 activeCategory === cat.id
-                  ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/20'
-                  : 'bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] border border-white/[0.08]'
+                  ? 'bg-black text-white shadow-sm'
+                  : 'bg-white text-slate-600 hover:text-black border border-neutral-200'
               }`}
             >
               {cat.label}
@@ -105,47 +104,47 @@ export function MentorShowcase() {
           {filteredMentors.map((mentor) => (
             <div
               key={mentor.id}
-              className="rounded-2xl glass-card p-6 sm:p-7 transition-all duration-200 flex flex-col justify-between"
+              className="rounded-2xl modern-card p-6 sm:p-7 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-2xl">
+                    <div className="w-13 h-13 rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-2xl">
                       {mentor.avatar}
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">{mentor.name}</h3>
-                      <p className="text-sm font-semibold text-sky-400">{mentor.role}</p>
+                      <h3 className="text-lg font-bold text-slate-950">{mentor.name}</h3>
+                      <p className="text-xs font-semibold text-slate-600 mt-0.5">{mentor.role}</p>
                     </div>
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-white/[0.06] text-xs font-bold text-slate-300 border border-white/[0.08]">
+                  <span className="px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-xs font-semibold text-slate-700">
                     {mentor.difficulty}
                   </span>
                 </div>
 
-                <p className="mt-4 text-sm text-slate-400 leading-relaxed">{mentor.description}</p>
+                <p className="mt-4 text-xs sm:text-sm text-slate-600 leading-relaxed">{mentor.description}</p>
 
-                <div className="mt-6 flex flex-wrap gap-2 text-xs">
-                  <span className="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] font-medium text-slate-300">
-                    Style: <strong className="text-white">{mentor.style}</strong>
+                <div className="mt-5 flex flex-wrap gap-2 text-xs">
+                  <span className="px-3 py-1 rounded-lg bg-neutral-100 text-slate-700 font-medium">
+                    Style: <strong className="text-slate-900 font-semibold">{mentor.style}</strong>
                   </span>
-                  <span className="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] font-medium text-slate-300">
-                    Voice: <strong className="text-white">{mentor.voiceAccent}</strong>
+                  <span className="px-3 py-1 rounded-lg bg-neutral-100 text-slate-700 font-medium">
+                    Voice: <strong className="text-slate-900 font-semibold">{mentor.voiceAccent}</strong>
                   </span>
                 </div>
               </div>
 
-              <div className="mt-6 pt-5 border-t border-white/[0.06] flex items-center justify-between">
-                <button className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white transition-colors duration-200">
+              <div className="mt-6 pt-5 border-t border-neutral-100 flex items-center justify-between text-xs font-semibold">
+                <button className="inline-flex items-center gap-2 text-slate-500 hover:text-black transition-colors">
                   <Volume2 className="w-4 h-4" />
                   <span>Sample Voice</span>
                 </button>
                 <Link
                   href="/sign-up"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-400 hover:text-sky-300 group/link transition-colors duration-200"
+                  className="inline-flex items-center gap-1.5 text-black hover:text-neutral-700 group transition-colors"
                 >
                   <span>Start Voice Call</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1" />
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -153,23 +152,24 @@ export function MentorShowcase() {
         </div>
 
         {/* Custom Mentor Studio Banner */}
-        <div className="mt-12 p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-sky-950/40 via-[#01001a] to-indigo-950/30 border border-white/[0.06] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-12 p-8 sm:p-10 rounded-2xl bg-black text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-2 text-center md:text-left">
-            <h4 className="text-xl sm:text-2xl font-bold flex items-center justify-center md:justify-start gap-2 text-white">
-              <Sparkles className="w-5 h-5 text-sky-400" />
+            <h4 className="text-xl sm:text-2xl font-bold flex items-center justify-center md:justify-start gap-2">
+              <Sparkles className="w-5 h-5 text-white" />
               <span>Create Your Custom AI Mentor Studio</span>
             </h4>
-            <p className="text-sm text-slate-400 max-w-xl leading-relaxed">
-              Upload custom PDFs, syllabus guidelines, and configure custom system prompts with over 50+ hyper-realistic voice profiles.
+            <p className="text-xs sm:text-sm text-neutral-300 max-w-xl leading-relaxed">
+              Upload custom PDFs, syllabus guidelines, and configure custom system prompts with hyper-realistic voice profiles.
             </p>
           </div>
           <Link
             href="/sign-up"
-            className="whitespace-nowrap px-6 py-3.5 rounded-xl text-sm font-bold glass-button-white"
+            className="whitespace-nowrap px-6 py-3 rounded-full bg-white text-black text-sm font-semibold hover:bg-neutral-100 transition-all shadow-md"
           >
             Launch Mentor Studio
           </Link>
         </div>
+
       </div>
     </section>
   );

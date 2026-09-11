@@ -1,3 +1,13 @@
+export interface IUser {
+  _id?: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  learningStreak?: number;
+  totalCallMinutes?: number;
+  createdAt?: string | Date;
+}
+
 export interface IMentor {
   _id?: string;
   name: string;
