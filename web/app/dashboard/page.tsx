@@ -58,7 +58,7 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white text-slate-900">
+      <div className="min-h-screen flex items-center justify-center text-slate-900">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold animate-pulse">
             ✦
@@ -70,7 +70,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50/50 text-slate-900 selection:bg-black selection:text-white pb-24">
+    <div className="min-h-screen text-slate-900 selection:bg-black selection:text-white pb-24">
       {/* Top Header */}
       <DashboardHeader
         userName={userData?.name || 'Learner'}

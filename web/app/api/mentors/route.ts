@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/db/mongodb';
 import { Mentor } from '@/lib/models/Mentor';
+import { createVapiAssistant } from '@/lib/vapi';
 import { ApiResponse, IMentor } from '@atlas/types';
 
 // GET /api/mentors - List all mentors or filter by subject
@@ -31,7 +32,9 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
     const body = await req.json();
 
-    const newMentor = await Mentor.create(body);
+    const vapiAssistantId = await createVapiAssistant(body);
+
+    const newMentor = await Mentor.create({ ...body, vapiAssistantId });
 
     return NextResponse.json<ApiResponse<IMentor>>(
       {

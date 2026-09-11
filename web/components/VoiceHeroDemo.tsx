@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mic, Volume2, Sparkles, ArrowRight, Play, Pause, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import { Reveal } from '@/components/Reveal';
 
 export function VoiceHeroDemo() {
   const [isActive, setIsActive] = useState(false);
@@ -66,23 +67,23 @@ export function VoiceHeroDemo() {
   const currentItem = simulationSteps[activeStep];
 
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-white text-slate-900">
+    <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden glass-section text-slate-900">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Top Feature Pill */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-100 border border-neutral-200 text-xs font-medium text-slate-700 shadow-sm">
+        <Reveal className="flex justify-center mb-6" delay={50}>
+          <div className="relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border border-white/60 text-xs font-medium text-slate-700 shadow-sm overflow-hidden animate-shimmer">
             <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
             <span>Atlas v2.0 &middot; Ultra Low-Latency Voice AI Learning</span>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           </div>
-        </div>
+        </Reveal>
 
         {/* Hero Title */}
-        <div className="text-center max-w-3xl mx-auto space-y-5">
+        <Reveal className="text-center max-w-3xl mx-auto space-y-5" delay={100}>
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-slate-950 leading-[1.08]">
             Master Any Subject with{' '}
-            <span className="bg-gradient-to-r from-black via-slate-800 to-slate-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-600 via-fuchsia-600 to-sky-600 bg-clip-text text-transparent animate-gradient-text">
               Live Voice AI
             </span>
           </h1>
@@ -118,12 +119,12 @@ export function VoiceHeroDemo() {
               )}
             </button>
           </div>
-        </div>
+        </Reveal>
 
         {/* Modern Voice AI Simulator Card */}
-        <div className="mt-14 max-w-4xl mx-auto">
-          <div className="rounded-3xl border border-neutral-200 bg-white p-2 shadow-xl shadow-slate-100">
-            <div className="rounded-2xl border border-neutral-100 bg-neutral-50/70 p-6 sm:p-8">
+        <Reveal className="mt-14 max-w-4xl mx-auto" delay={150}>
+          <div className="rounded-3xl border border-white/60 glass p-2 shadow-xl shadow-slate-900/5">
+            <div className="rounded-2xl border border-white/50 bg-white/30 backdrop-blur-xl p-6 sm:p-8">
               
               {/* Header Bar */}
               <div className="flex items-center justify-between pb-6 border-b border-neutral-200/80">
@@ -189,7 +190,7 @@ export function VoiceHeroDemo() {
 
                 {/* Right: Transcript & Live Visual Companion */}
                 <div className="md:col-span-7 flex flex-col justify-center space-y-3.5">
-                  <div className="p-4 rounded-2xl bg-white border border-neutral-200 shadow-sm">
+                  <div className="p-4 rounded-2xl glass border border-white/50 shadow-sm">
                     <div className="flex items-center gap-2 mb-1.5 text-xs text-slate-500 font-medium">
                       <Volume2 className="w-3.5 h-3.5 text-black" />
                       <span className="font-semibold uppercase tracking-wider text-slate-700">
@@ -220,7 +221,7 @@ export function VoiceHeroDemo() {
                       </div>
                     ) : (
                       <div className="mt-2 p-3 rounded-xl bg-neutral-900/90 border border-neutral-800 font-mono text-xs text-slate-400">
-                        <code>// Code snippets, LaTeX formulas, and visual diagrams stream instantly as you talk</code>
+                        <code>{'// Code snippets, LaTeX formulas, and visual diagrams stream instantly as you talk'}</code>
                       </div>
                     )}
                   </div>
@@ -229,7 +230,7 @@ export function VoiceHeroDemo() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Feature Badges */}
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
@@ -239,13 +240,14 @@ export function VoiceHeroDemo() {
             { label: 'True Cross-Platform', sub: 'Next.js Web + Expo Mobile' },
             { label: 'Long-Term Memory', sub: 'Vector Stored Progress' },
           ].map((item, idx) => (
-            <div
-              key={idx}
-              className="p-5 rounded-2xl modern-card text-center"
-            >
-              <p className="text-sm font-bold text-slate-900">{item.label}</p>
-              <p className="text-xs text-slate-500 mt-1">{item.sub}</p>
-            </div>
+            <Reveal key={idx} delay={idx * 90}>
+              <div
+                className="p-5 rounded-2xl glass text-center h-full transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+              >
+                <p className="text-sm font-bold text-slate-900">{item.label}</p>
+                <p className="text-xs text-slate-500 mt-1">{item.sub}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
 

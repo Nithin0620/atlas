@@ -47,7 +47,7 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="relative min-h-screen flex flex-col lg:flex-row bg-white text-slate-900 selection:bg-black selection:text-white overflow-x-hidden">
+    <main className="relative min-h-screen flex flex-col lg:flex-row text-slate-900 selection:bg-black selection:text-white overflow-x-hidden">
       {/* Background Subtle Grid */}
       <AuthAnimatedBackground />
 

@@ -64,7 +64,7 @@ export function CreateMentorModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-      <div className="relative w-full max-w-lg rounded-3xl bg-white p-6 sm:p-8 shadow-2xl border border-neutral-200 text-slate-900 space-y-6">
+      <div className="relative w-full max-w-lg rounded-3xl glass p-6 sm:p-8 shadow-2xl border border-white/60 text-slate-900 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
           <div className="flex items-center gap-2">
@@ -138,7 +138,7 @@ export function CreateMentorModal({
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value as any)}
-                className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 text-slate-900 text-xs bg-white modern-input"
+                className="w-full px-3 py-2.5 rounded-xl border border-white/60 text-slate-900 text-xs bg-white/60 modern-input"
               >
                 <option value="beginner">Beginner (Foundations)</option>
                 <option value="intermediate">Intermediate</option>
@@ -151,7 +151,7 @@ export function CreateMentorModal({
               <select
                 value={teachingStyle}
                 onChange={(e) => setTeachingStyle(e.target.value as any)}
-                className="w-full px-3 py-2.5 rounded-xl border border-neutral-200 text-slate-900 text-xs bg-white modern-input"
+                className="w-full px-3 py-2.5 rounded-xl border border-white/60 text-slate-900 text-xs bg-white/60 modern-input"
               >
                 <option value="socratic">Socratic (Question-driven)</option>
                 <option value="direct">Direct & Structured</option>

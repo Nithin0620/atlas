@@ -111,7 +111,7 @@ export default function ContactPage() {
               <select
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-slate-900 modern-input bg-white"
+                className="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-slate-900 modern-input bg-white/60"
               >
                 {topicOptions.map((option) => (
                   <option key={option}>{option}</option>

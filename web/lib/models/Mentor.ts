@@ -20,6 +20,7 @@ const MentorSchema = new Schema<MentorDocument>(
       default: 'socratic',
     },
     voiceId: { type: String, required: true },
+    vapiAssistantId: { type: String },
     systemPrompt: { type: String },
   },
   { timestamps: true }

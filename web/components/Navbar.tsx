@@ -1,18 +1,58 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Menu, X, Sparkles } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
+
+const NAV_LINKS = [
+  { label: 'Features', href: '/features' },
+  { label: 'How it Works', href: '/how-it-works' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Terms', href: '/terms' },
+];
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [highlight, setHighlight] = useState({ x: 0, y: 0, w: 0, show: false });
+  const navRef = useRef<HTMLDivElement>(null);
+
+  const handleNavMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!navRef.current) return;
+    const rect = navRef.current.getBoundingClientRect();
+    const target = e.target as HTMLElement;
+    const link = target.closest('[data-nav-link]');
+
+    if (link) {
+      const linkRect = link.getBoundingClientRect();
+      setHighlight({
+        x: linkRect.left - rect.left,
+        y: linkRect.top - rect.top,
+        w: linkRect.width,
+        show: true,
+      });
+    } else {
+      setHighlight((prev) => ({ ...prev, show: false }));
+    }
+  }, []);
 
   return (
     <header className="fixed top-5 left-0 right-0 z-50 flex justify-center px-4 md:px-8">
-      <div className="relative w-full max-w-5xl rounded-full bg-white/85 backdrop-blur-xl border border-neutral-200/90 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] px-5 py-2.5">
+      <div
+        className="
+          relative w-full max-w-5xl rounded-full
+          bg-white/25
+          backdrop-blur-2xl
+          border border-white/40
+          shadow-[0_8px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.6),inset_0_-1px_0_rgba(255,255,255,0.2)]
+          px-5 py-2.5
+        "
+      >
+        <div aria-hidden className="absolute inset-0 rounded-full bg-gradient-to-b from-white/40 to-white/5 pointer-events-none" />
         <div className="flex items-center justify-between">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-2.5 group shrink-0">
             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-black text-white text-sm font-bold shadow-sm group-hover:scale-105 transition-transform">
               ✦
             </div>
@@ -21,20 +61,34 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1">
-            {[
-              { label: 'Features', href: '/features' },
-              { label: 'How it Works', href: '/how-it-works' },
-              { label: 'Pricing', href: '/pricing' },
-              { label: 'Contact', href: '/contact' },
-              { label: 'Privacy', href: '/privacy' },
-              { label: 'Terms', href: '/terms' },
-            ].map((link) => (
+          {/* Navigation Links — cursor-tracking pill */}
+          <nav
+            ref={navRef}
+            onMouseMove={handleNavMouseMove}
+            onMouseLeave={() => setHighlight((prev) => ({ ...prev, show: false }))}
+            className="hidden md:flex items-center gap-1 relative"
+          >
+            {/* Hover pill */}
+            <span
+              className="absolute rounded-full bg-black/[0.06] pointer-events-none transition-all duration-200 ease-out"
+              style={{
+                width: highlight.w,
+                height: 28,
+                transform: `translate(${highlight.x}px, ${highlight.y}px)`,
+                opacity: highlight.show ? 1 : 0,
+              }}
+            />
+
+            {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
+                data-nav-link
                 href={link.href}
-                className="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-black hover:bg-neutral-100 rounded-full transition-all"
+                className="
+                  relative z-10 px-4 py-1.5 text-sm font-medium text-slate-600
+                  hover:text-black rounded-full transition-colors duration-150
+                  data-[active]:text-black
+                "
               >
                 {link.label}
               </a>
@@ -42,7 +96,7 @@ export function Navbar() {
           </nav>
 
           {/* Right CTAs */}
-          <div className="hidden md:flex items-center gap-3 text-sm">
+          <div className="hidden md:flex items-center gap-3 text-sm shrink-0">
             <Link
               href="/sign-in"
               className="font-medium text-slate-600 hover:text-black px-3 py-1.5 transition-colors"
@@ -51,7 +105,7 @@ export function Navbar() {
             </Link>
             <Link
               href="/sign-up"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full modern-btn-black text-xs font-semibold"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-black text-white text-xs font-semibold hover:bg-slate-800 transition-colors shadow-sm"
             >
               <span>Get Started</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -67,61 +121,38 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Dropdown Menu — glassmorphism */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-3 pt-3 border-t border-neutral-100 flex flex-col gap-2 text-sm">
-            <Link
-              href="/features"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
-            >
-              Features
-            </Link>
-            <Link
-              href="/how-it-works"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
-            >
-              How it Works
-            </Link>
-            <Link
-              href="/pricing"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
-            >
-              Contact
-            </Link>
-            <Link
-              href="/privacy"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
-            >
-              Privacy
-            </Link>
-            <Link
-              href="/terms"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 text-slate-700 hover:bg-neutral-100 rounded-xl font-medium"
-            >
-              Terms
-            </Link>
+          <div
+            className="
+              md:hidden mt-3 pt-3
+              border-t border-white/40
+              flex flex-col gap-1 text-sm
+              rounded-2xl bg-white/30 backdrop-blur-2xl border border-white/50 shadow-xl
+              p-2
+            "
+          >
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 text-slate-700 hover:bg-black/[0.04] hover:text-black rounded-xl font-medium transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+
             <div className="pt-2 flex flex-col gap-2">
               <Link
                 href="/sign-in"
-                className="w-full text-center py-2.5 rounded-full border border-neutral-200 text-slate-900 font-medium"
+                className="w-full text-center py-2.5 rounded-full border border-white/50 bg-white/30 text-slate-900 font-medium backdrop-blur-sm"
               >
                 Sign In
               </Link>
               <Link
                 href="/sign-up"
-                className="w-full text-center py-2.5 rounded-full modern-btn-black font-semibold text-xs"
+                className="w-full text-center py-2.5 rounded-full bg-black text-white font-semibold text-xs"
               >
                 Get Started Free
               </Link>

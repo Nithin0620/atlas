@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { AmbientBackground } from '@/components/AmbientBackground';
 
 export const metadata: Metadata = {
   title: 'Atlas — AI Voice Learning Platform',
@@ -13,7 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <body className="min-h-screen bg-white text-slate-900 antialiased selection:bg-black selection:text-white">
+      <body className="min-h-screen text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
+        <AmbientBackground />
         {children}
       </body>
     </html>

@@ -17,6 +17,7 @@ export interface IMentor {
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   teachingStyle: 'socratic' | 'direct' | 'storyteller' | 'coach';
   voiceId: string;
+  vapiAssistantId?: string;
   systemPrompt?: string;
   createdAt?: string | Date;
 }

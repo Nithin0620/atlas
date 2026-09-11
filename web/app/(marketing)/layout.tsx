@@ -8,7 +8,7 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="relative min-h-screen bg-white text-slate-900 selection:bg-black selection:text-white overflow-x-hidden">
+    <main className="relative min-h-screen text-slate-900 selection:bg-black selection:text-white overflow-x-hidden">
       <BackgroundGridCanvas />
       <Navbar />
       <div className="relative z-10 pt-28 pb-10">{children}</div>

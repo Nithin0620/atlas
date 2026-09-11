@@ -30,7 +30,7 @@ export function DashboardHeader({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200">
+    <header className="sticky top-0 z-40 glass border-b border-white/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Brand */}
         <div className="flex items-center gap-6">
@@ -65,7 +65,7 @@ export function DashboardHeader({
           </div>
 
           {/* User Profile Pill */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-neutral-200 shadow-sm">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-white/50 shadow-sm">
             <div className="w-6 h-6 rounded-full bg-neutral-900 text-white flex items-center justify-center text-[10px] font-bold">
               {userName ? userName.charAt(0).toUpperCase() : 'U'}
             </div>

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Volume2, ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { Reveal } from '@/components/Reveal';
 
 export function MentorShowcase() {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -60,24 +61,26 @@ export function MentorShowcase() {
       : mentors.filter((m) => m.category === activeCategory);
 
   return (
-    <section id="mentors" className="relative py-24 md:py-32 bg-neutral-50/50 border-t border-neutral-200/80 text-slate-900">
+    <section id="mentors" className="relative py-24 md:py-32 glass-section border-t border-white/50 text-slate-900">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3.5 py-1.5 text-xs font-semibold tracking-wider text-slate-700 shadow-sm">
+        <Reveal className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="relative inline-flex items-center gap-2 rounded-full border border-white/60 glass px-3.5 py-1.5 text-xs font-semibold tracking-wider text-slate-700 shadow-sm overflow-hidden animate-shimmer">
             <span>01 &middot; PERSONALIZED INTELLIGENCE</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight">
-            Meet Your Specialized AI Mentors
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
+            <span className="bg-gradient-to-r from-indigo-600 via-fuchsia-600 to-sky-600 bg-clip-text text-transparent animate-gradient-text">
+              Meet Your Specialized AI Mentors
+            </span>
           </h2>
           <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Switch seamlessly between tailored personas. Each mentor adapts their pedagogy, pacing, and tone to your unique learning style.
           </p>
-        </div>
+        </Reveal>
 
         {/* Category Filter Pills */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+        <Reveal delay={120} className="mt-10 flex flex-wrap items-center justify-center gap-2">
           {[
             { id: 'all', label: 'All Fields' },
             { id: 'physics', label: 'Quantum & Physics' },
@@ -91,21 +94,21 @@ export function MentorShowcase() {
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
                 activeCategory === cat.id
                   ? 'bg-black text-white shadow-sm'
-                  : 'bg-white text-slate-600 hover:text-black border border-neutral-200'
+                  : 'bg-white/50 backdrop-blur text-slate-600 hover:text-black border border-white/60'
               }`}
             >
               {cat.label}
             </button>
           ))}
-        </div>
+        </Reveal>
 
         {/* Mentors Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredMentors.map((mentor) => (
-            <div
-              key={mentor.id}
-              className="rounded-2xl modern-card p-6 sm:p-7 flex flex-col justify-between"
-            >
+          {filteredMentors.map((mentor, idx) => (
+            <Reveal key={mentor.id} delay={idx * 90} className="h-full">
+              <div
+                className="rounded-2xl modern-card glow-border p-6 sm:p-7 flex flex-col justify-between h-full"
+              >
               <div>
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-4">
@@ -148,27 +151,31 @@ export function MentorShowcase() {
                 </Link>
               </div>
             </div>
+            </Reveal>
           ))}
         </div>
 
         {/* Custom Mentor Studio Banner */}
-        <div className="mt-12 p-8 sm:p-10 rounded-2xl bg-black text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-          <div className="space-y-2 text-center md:text-left">
-            <h4 className="text-xl sm:text-2xl font-bold flex items-center justify-center md:justify-start gap-2">
-              <Sparkles className="w-5 h-5 text-white" />
-              <span>Create Your Custom AI Mentor Studio</span>
-            </h4>
-            <p className="text-xs sm:text-sm text-neutral-300 max-w-xl leading-relaxed">
-              Upload custom PDFs, syllabus guidelines, and configure custom system prompts with hyper-realistic voice profiles.
-            </p>
+        <Reveal delay={150}>
+          <div className="mt-12 p-8 sm:p-10 rounded-2xl bg-black text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
+            <div aria-hidden className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-indigo-500/30 blur-3xl animate-blob" />
+            <div className="space-y-2 text-center md:text-left relative z-10">
+              <h4 className="text-xl sm:text-2xl font-bold flex items-center justify-center md:justify-start gap-2">
+                <Sparkles className="w-5 h-5 text-white" />
+                <span>Create Your Custom AI Mentor Studio</span>
+              </h4>
+              <p className="text-xs sm:text-sm text-neutral-300 max-w-xl leading-relaxed">
+                Upload custom PDFs, syllabus guidelines, and configure custom system prompts with hyper-realistic voice profiles.
+              </p>
+            </div>
+            <Link
+              href="/sign-up"
+              className="whitespace-nowrap px-6 py-3 rounded-full glass text-black text-sm font-semibold hover:bg-white/70 transition-all shadow-md"
+            >
+              Launch Mentor Studio
+            </Link>
           </div>
-          <Link
-            href="/sign-up"
-            className="whitespace-nowrap px-6 py-3 rounded-full bg-white text-black text-sm font-semibold hover:bg-neutral-100 transition-all shadow-md"
-          >
-            Launch Mentor Studio
-          </Link>
-        </div>
+        </Reveal>
 
       </div>
     </section>

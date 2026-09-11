@@ -3,17 +3,21 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
+import { Reveal } from '@/components/Reveal';
 
 export function CallToAction() {
   return (
-    <section className="relative py-24 md:py-32 bg-white border-t border-neutral-200/80 text-slate-900">
+    <section className="relative py-24 md:py-32 glass-section border-t border-white/50 text-slate-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-100 border border-neutral-200 text-xs font-semibold text-slate-700 shadow-sm">
+        <Reveal className="space-y-6">
+        <div className="relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border border-white/60 text-xs font-semibold text-slate-700 shadow-sm overflow-hidden animate-shimmer">
           <span>Transform Your Daily Learning</span>
         </div>
 
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight">
-          Ready to Experience the Future of AI Voice Mentorship?
+        <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+          <span className="bg-gradient-to-r from-indigo-600 via-fuchsia-600 to-sky-600 bg-clip-text text-transparent animate-gradient-text">
+            Ready to Experience the Future of AI Voice Mentorship?
+          </span>
         </h2>
 
         <p className="text-base sm:text-lg text-slate-600 max-w-xl mx-auto">
@@ -50,6 +54,7 @@ export function CallToAction() {
             <span>Free Tier Available</span>
           </div>
         </div>
+        </Reveal>
 
       </div>
     </section>

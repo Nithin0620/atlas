@@ -11,7 +11,7 @@ import { Footer } from '@/components/Footer';
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen bg-[#01001a] text-slate-100 selection:bg-sky-500/30 selection:text-white">
+    <main className="relative min-h-screen text-slate-900 selection:bg-slate-900/90 selection:text-white">
       {/* Dynamic Animated Grid Matrix & Ambient Blooming Auroras */}
       <BackgroundGridCanvas />
 
