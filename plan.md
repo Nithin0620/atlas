@@ -1,124 +1,143 @@
-# Atlas — Project Plan
+# 🗺️ Atlas: Master Engineering & Feature Roadmap (`plan.md`)
 
-Voice-powered AI learning platform across **Web** and **Mobile** (iOS & Android), elevated with real-time visual companions, long-term memory, and automated session debriefs.
-
----
-
-## 1. Product Vision & Value Proposition
-
-- **Conversational Voice Learning:** Real-time, low-latency back-and-forth speech with customized AI mentors.
-- **Cross-Platform Accessibility:** 
-  - **Mobile (iOS & Android):** Ideal for on-the-go practice, commutes, walking, and hands-free tutoring.
-  - **Web (Desktop/Tablet):** Ideal for deep study sessions, dashboard reviews, and visual-heavy learning (code/math).
-- **Core Value-Adds beyond Standard Voice AI:**
-  1. **Live Visual Companion:** Real-time streamed visual aids (LaTeX math formulas, syntax-highlighted code snippets, bullet points) synchronized with spoken audio.
-  2. **Post-Session AI Debrief & Flashcards:** Automatic post-call summarization, knowledge gap identification, and Spaced-Repetition (Anki-style) flashcards.
-  3. **Session Memory & Long-Term Context:** Vector embeddings (pgvector) of past discussions so mentors recall user progress and follow up in subsequent sessions.
+> **Atlas** is an ultra-low latency, full-duplex conversational voice learning platform built with Next.js 15, Vapi / Daily WebRTC, KaTeX LaTeX math rendering, SuperMemo SM-2 spaced repetition, and MongoDB.
 
 ---
 
-## 2. Tech Stack
+## 📑 Roadmap Matrix: 11 Core Pillars & Mobile Support
 
-| Layer | Technology | Role |
-|---|---|---|
-| **Monorepo** | **Turborepo** | Monorepo orchestrator managing `web`, `app`, and `packages` |
-| **Web & REST API** | **Next.js 15+ (App Router)** | Web dashboard + REST Route Handlers (`/api/*`) consumed by Web & Mobile |
-| **State Management** | **Zustand** | Client-side state (call session, active mentor, user preferences) |
-| **Mobile App** | **React Native / Expo** | iOS & Android native apps calling Next.js REST endpoints & WebRTC audio |
-| **Voice Engine** | **Vapi AI** | Full-duplex speech-to-speech engine (Deepgram + LLMs + ElevenLabs/Cartesia) |
-| **Database** | **MongoDB (Mongoose)** | Document store for users, mentors, sessions, and flashcards |
-| **Authentication** | **Clerk** | Unified auth across Web and Mobile |
-| **Monetization** | **Stripe** + **RevenueCat** | Stripe for Web; RevenueCat for iOS App Store & Google Play |
-
----
-
-## 3. Architecture & Monorepo Structure
-
-```
-atlas/
-├── web/                             # Next.js 15+ (Web UI + REST API Endpoints)
-│   ├── app/
-│   │   ├── (auth)/                  # Auth pages
-│   │   ├── (dashboard)/             # Main dashboard
-│   │   ├── api/                     # Shared REST Route Handlers
-│   │   │   ├── auth/                # /api/auth/*
-│   │   │   ├── mentors/             # /api/mentors/* (CRUD)
-│   │   │   ├── sessions/            # /api/sessions/* (history, summaries)
-│   │   │   ├── voice/               # /api/voice/* (tokens, webhooks)
-│   │   │   └── flashcards/          # /api/flashcards/*
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── lib/
-│   │   ├── db/                      # Cached MongoDB / Mongoose connection
-│   │   └── models/                  # Mongoose Schemas (Mentor, Session, User, Flashcard)
-│   ├── stores/                      # Zustand state stores (useVoiceStore, useMentorStore)
-│   └── components/                  # Web UI components
-│
-├── mobile/                          # Expo (React Native)
-│   ├── app/                         # Expo Router file-based navigation
-│   │   ├── (tabs)/                  # Tab screens (Home, Mentors, History, Profile)
-│   │   ├── call/                    # Active voice call screen
-│   │   └── _layout.tsx
-│   ├── components/                  # Native UI components
-│   ├── stores/                      # Mobile Zustand stores
-│   ├── lib/
-│   │   ├── api.ts                   # HTTP client calling Next.js REST endpoints
-│   │   └── voice.ts                 # Vapi React Native / WebRTC integration
-│   └── package.json
-│
-├── packages/
-│   └── types/                       # Shared TypeScript interfaces & DTOs
-│
-├── turbo.json                       # Turborepo build pipeline
-├── package.json                     # Root workspace configuration
-└── README.md
-```
+| # | Feature Module | Core Deliverables | Status |
+| :--- | :--- | :--- | :--- |
+| **1** | **End-to-End Testing** | Playwright WebRTC mocking, Vitest/Jest SM-2, API & Middleware coverage | ⏳ Planned |
+| **2** | **Flashcard Generation** | Automatic takeaway extraction, KaTeX math cards, Anki SM-2 queue | ⏳ Planned |
+| **3** | **Voice & Call Msg Persisting** | Real-time transcript logs, timestamps, turn latency, MongoDB sync | ⏳ Planned |
+| **4** | **Mentor Calls & Own Voice Playback** | Dual-track stereo recording (AI + User Mic), waveform scrubber | ⏳ Planned |
+| **5** | **Test & Quiz Generation** | Dynamic 3-5 question adaptive multiple choice quiz post-call | ⏳ Planned |
+| **6** | **UI / UX Overhaul** | Glassmorphism, 3D flip cards, KaTeX formula feeds, visual sound orbs | ⏳ Planned |
+| **7** | **Public & Private Mentor Visibility** | Privacy toggle, Community Mentor Marketplace, 1-Click Forking | ⏳ Planned |
+| **8** | **Sharing Mentor Call Functionality** | Public share URLs (`/share/[id]`), dynamic OG Twitter/LinkedIn cards | ⏳ Planned |
+| **9** | **Export Audio & Video Functionality** | MP3 podcast download + MP4 animated video with KaTeX overlay | ⏳ Planned |
+| **10** | **Public & Private User Profiles** | `@handle` profiles, GitHub-style learning heatmaps, badges, streaks | ⏳ Planned |
+| **11** | **Historical & Great Thinker Personas** | Gandhi, Feynman, Socrates, Einstein, Turing, Ada Lovelace | ⏳ Planned |
+| **📱** | **Mobile-First Responsive UI (All Features)** | PWA, touch gestures, swipeable tabs, Lock-Screen Walk Mode | ⏳ Planned |
 
 ---
 
-## 4. Key Considerations: Web vs. Mobile
+## 🚀 Deep-Dive Technical Specifications
 
-| Feature | Web Implementation | Mobile (iOS & Android) Implementation |
-|---|---|---|
-| **Voice / WebRTC** | `@vapi-ai/web` (Browser WebRTC) | `@vapi-ai/react-native` + Native WebRTC & microphone permissions |
-| **Auth** | `@clerk/nextjs` (Cookie & middleware based) | `@clerk/clerk-expo` (SecureStore token caching) |
-| **Audio in Background** | Browser tab active audio | Background Audio mode & CallKit / Foreground services |
-| **Billing / Subscriptions** | Stripe Checkout / Customer Portal | Apple In-App Purchases & Google Play Billing via RevenueCat |
+### 1. 🧪 End-to-End & Integration Testing Suite
+* **Playwright E2E (`/e2e`):**
+  * Automated testing of full auth, custom mentor creation, WebRTC room connection, real-time KaTeX extraction, and post-call save flow.
+  * Fake WebRTC media stream injection (`--use-fake-ui-for-media-stream`, `--use-fake-device-for-media-stream`).
+* **Unit & Algorithm Tests (Vitest / Jest):**
+  * SuperMemo SM-2 calculation engine (`web/lib/anki.ts`): interval calculation, ease factor bounds ($EF \ge 1.3$).
+  * System prompt and Vapi assistant compiler validation (`web/lib/vapi.ts`).
+  * Session debriefing and takeaway parsing (`/api/sessions`).
 
 ---
 
-## 5. Execution Roadmap
+### 2. 📇 Intelligent Flashcard Auto-Generation
+* **Auto-Extraction Pipeline:**
+  * Post-call NLP parser parses dialogue turns on session finish.
+  * Automatically generates **Formula Cards** (rendered with KaTeX) and **Concept Cards** (definitions & mental models).
+* **SuperMemo SM-2 Integration:**
+  * Direct synchronization with the user's Spaced Repetition queue.
+  * 3D Card Flip Review Deck with 4-button grading (`Again [1]`, `Hard [2]`, `Good [3]`, `Easy [4]`).
 
-```mermaid
-flowchart TD
-    P1["Phase 1: Foundation & Auth<br/>(Turborepo, Supabase Schema, Clerk Web & Expo)"] --> P2["Phase 2: Voice AI Engine<br/>(Vapi AI WebRTC on Web & Mobile, Mentor Prompts)"]
-    P2 --> P3["Phase 3: Core UI & Experience<br/>(Mentor Builder, Library, Waveform & Calling UI)"]
-    P3 --> P4["Phase 4: Value-Add Features<br/>(Live Visual Companion, Session Debriefs & Flashcards)"]
-    P4 --> P5["Phase 5: Subscriptions & Launch<br/>(Stripe + RevenueCat IAP, Production Deployment)"]
-```
+---
 
-### Phase Breakdown
+### 3. 💬 Voice & Call Message Persistence
+* **Turn-by-Turn Structured Logs:**
+  * Persists user and assistant messages, raw transcripts, recognized intent, and timestamps in MongoDB (`Session` collection).
+  * Stores companion events tied to the exact turn and second in the conversation.
+* **Resilience:** Auto-saves transcript fragments incrementally so dropped connections never lose conversation history.
 
-- **Phase 1: Foundation & Auth**
-  - Turborepo setup with shared `packages/api` and `packages/types`.
-  - Supabase schema definition: `profiles`, `mentors`, `sessions`, `bookmarks`, `flashcards`.
-  - Clerk authentication integration on both Web and Expo Mobile.
+---
 
-- **Phase 2: Voice AI Engine**
-  - Integrate Vapi AI Web SDK on Next.js and Vapi React Native SDK on Expo.
-  - Implement dynamic system prompt generator based on subject, topic, difficulty, and mentor teaching style.
+### 4. 🎙️ Mentor Calls & Own Voice Recording & Playback
+* **Dual-Track Audio Capture:**
+  * **User Stream:** Captured in the browser via `MediaRecorder` API (WebM/Opus).
+  * **Mentor Stream:** Captured via WebRTC remote audio track or Vapi server-side recording API.
+  * Stored in S3 / Cloudflare R2 / Supabase Storage with signed playback URLs.
+* **Interactive Waveform Player:**
+  * Visual amplitude scrub bar with clickable timestamps. Clicking any dialogue turn immediately jumps audio playback to that specific point in time.
 
-- **Phase 3: Core UI & Experience**
-  - Build Mentor Creation Studio (name, voice, subject, topic, personality).
-  - Build Mentor Library with category filters and search.
-  - Implement active calling screen with real-time waveform visualizers and call control buttons.
+---
 
-- **Phase 4: Visual Companion & Long-Term Memory**
-  - Real-time visual cards synced with AI responses (code snippets, math formulas).
-  - Automatic session summarization and flashcard generation after each call.
-  - Long-term memory store using pgvector in Supabase.
+### 5. 📝 Post-Call Test & Quiz Generation
+* **Adaptive Knowledge Evaluation:**
+  * Generates 3-5 multiple-choice questions based specifically on the mentor's explanations and user questions from the call.
+  * Includes detailed explanations, citing the specific timestamp where the mentor explained the concept.
+* **Progress Scoring:** Scores added to user mastery metrics and learning streak.
 
-- **Phase 5: Monetization & Production Launch**
-  - Stripe integration on Web.
-  - RevenueCat integration for Apple App Store and Google Play subscriptions.
-  - Deployment pipelines (Vercel for Web, EAS Build / App Store / Play Store for Mobile).
+---
+
+### 6. 🎨 Complete UI / UX Modernization
+* **Visual Polish & Ergonomics:**
+  * Refined dark/light glassmorphic surfaces with Tailwind CSS.
+  * Fluid multi-frequency audio orb visualizer responding dynamically to assistant and user speech volume.
+  * Smooth KaTeX LaTeX math animations and copy-friendly syntax-highlighted code blocks.
+
+---
+
+### 7. 🔒 Public vs. Private Mentors & Community Library
+* **Privacy Toggle:**
+  * `isPublic: boolean` switch on mentor creation and settings.
+* **Community Marketplace:**
+  * Explore curated mentors created by other learners.
+  * **1-Click Fork:** Clone any public mentor into your private studio with custom tweaks.
+
+---
+
+### 8. 🔗 Sharing Mentor Call Functionality
+* **Shareable Call URLs:**
+  * Public web view (`/share/[sessionId]`) allowing others to read transcripts, view visual companion cards, and listen to the call audio.
+* **Rich Social Previews (Open Graph / Twitter Cards):**
+  * Dynamic social image generation showcasing Mentor Avatar, Topic, and highlighted KaTeX formula.
+
+---
+
+### 9. 🎬 Export Suite: Audio (MP3) & Video (MP4 + KaTeX Overlay)
+* **Audio Exporter:**
+  * Download combined stereo `.mp3` with embedded metadata and chapter timestamps.
+* **Video Exporter:**
+  * Generates animated MP4 video with:
+    * Synchronized subtitle captions.
+    * Live waveform visualizations.
+    * KaTeX LaTeX formula callouts popping up on the right-hand split screen.
+
+---
+
+### 10. 👤 Public & Private User Profiles & Streaks
+* **Profile System:**
+  * Public `@handle` pages with bio, subjects mastered, total voice call hours, and public mentors.
+  * Privacy toggle to keep stats anonymous if preferred.
+* **Gamification & Heatmaps:**
+  * GitHub-style daily learning activity heatmap.
+  * Achievement badges (*"Socratic Pioneer"*, *"Relativity Scholar"*, *"30-Day Streak"*).
+
+---
+
+### 11. 🏛️ Historical & Great Thinker Personas
+* **Pre-Engineered Voice & Character Presets:**
+  * **Mahatma Gandhi:** Non-violence (Ahimsa), Truth (Satya), and moral philosophy.
+  * **Richard Feynman:** First-principles physics intuition and visual analogies.
+  * **Socrates:** Dialectic questioning and philosophical scrutiny.
+  * **Albert Einstein:** Thought experiments (*Gedankenexperiment*) and relativity.
+  * **Alan Turing:** Logic, computability theory, and automata.
+  * **Ada Lovelace:** Poetical science and algorithmic elegance.
+
+---
+
+### 📱 Mobile-First Responsive Design (Across All 11 Modules)
+* **Mobile Calling Stage:**
+  * Bottom-sheet swipeable views for **Orb Stage** $\leftrightarrow$ **Live Companion KaTeX Feed**.
+  * **Lock-Screen Walk Mode:** Integrated with `navigator.mediaSession` for headphone click controls (play/pause/skip) while walking with the phone in your pocket.
+* **Touch Interactions & Haptics:**
+  * Haptic vibration feedback on interruption, mic mute, and quiz answers.
+  * Swipe gestures for flashcard reviews (`Swipe Left: Hard`, `Swipe Right: Easy`).
+* **Progressive Web App (PWA):**
+  * Full offline caching for reviewing flashcards and studying past transcripts on mobile devices.
+
+---
+*Roadmap finalized for Atlas.*

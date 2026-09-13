@@ -32,8 +32,9 @@ export async function GET(req: NextRequest) {
     // Fetch live mentors from MongoDB Atlas
     const mentors = await Mentor.find({}).sort({ createdAt: 1 }).lean();
 
-    // Fetch user's actual voice sessions from MongoDB Atlas
+    // Fetch user's actual voice sessions with populated mentor data
     const sessions = await Session.find({ userId: auth.userId })
+      .populate('mentorId')
       .sort({ createdAt: -1 })
       .limit(10)
       .lean();
@@ -87,13 +88,17 @@ export async function GET(req: NextRequest) {
         topic: m.topic,
         difficulty: m.difficulty,
         teachingStyle: m.teachingStyle,
+        pace: m.pace,
+        depth: m.depth,
+        voiceProvider: m.voiceProvider,
         voiceId: m.voiceId,
+        voiceName: m.voiceName,
         avatarUrl: m.avatarUrl || '🧑‍🏫',
       })),
       recentSessions: sessions.map((s: any) => ({
         _id: s._id.toString(),
         userId: s.userId,
-        mentorId: s.mentorId?.toString(),
+        mentorId: s.mentorId,
         durationSeconds: s.durationSeconds || 0,
         summary: s.summary,
         transcript: s.transcript,
@@ -101,12 +106,14 @@ export async function GET(req: NextRequest) {
         createdAt: s.createdAt,
       })),
       flashcards: flashcards.map((f: any) => ({
+        _id: f._id.toString(),
         id: f._id.toString(),
         front: f.front,
         back: f.back,
         nextReviewDate: f.nextReviewDate,
         interval: f.interval,
         repetition: f.repetition,
+        easeFactor: f.easeFactor,
       })),
     });
   } catch (error: any) {

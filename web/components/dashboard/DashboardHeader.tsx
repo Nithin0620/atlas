@@ -12,7 +12,7 @@ interface DashboardHeaderProps {
   onOpenCreateMentor: () => void;
 }
 
-export function DashboardHeader({
+function DashboardHeader({
   userName,
   userEmail,
   learningStreak,
@@ -30,7 +30,7 @@ export function DashboardHeader({
   };
 
   return (
-    <header className="sticky top-0 z-40 glass border-b border-white/40">
+    <header className="sticky top-0 z-40 glass-card bg-white/80 backdrop-blur-glass border-b border-white/50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Brand */}
         <div className="flex items-center gap-6">
@@ -52,7 +52,7 @@ export function DashboardHeader({
           {/* Create Mentor Button */}
           <button
             onClick={onOpenCreateMentor}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black text-white text-xs font-semibold hover:bg-neutral-800 transition-all shadow-sm"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full modern-btn-black text-xs font-semibold"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Create AI Mentor</span>
@@ -65,7 +65,7 @@ export function DashboardHeader({
           </div>
 
           {/* User Profile Pill */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-white/50 shadow-sm">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full glass bg-white/50 backdrop-blur border border-white/50 shadow-sm">
             <div className="w-6 h-6 rounded-full bg-neutral-900 text-white flex items-center justify-center text-[10px] font-bold">
               {userName ? userName.charAt(0).toUpperCase() : 'U'}
             </div>
@@ -87,3 +87,5 @@ export function DashboardHeader({
     </header>
   );
 }
+
+export default React.memo(DashboardHeader);

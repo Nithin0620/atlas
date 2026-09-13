@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 export interface VisualCompanionItem {
   id: string;
-  type: 'code' | 'formula' | 'bullet' | 'text';
+  type: 'code' | 'formula' | 'bullet' | 'text' | 'concept';
   content: string;
   language?: string;
   timestamp: number;

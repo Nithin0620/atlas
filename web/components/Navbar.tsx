@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, Menu, X } from 'lucide-react';
 
 const NAV_LINKS = [
@@ -14,9 +15,42 @@ const NAV_LINKS = [
 ];
 
 export function Navbar() {
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [highlight, setHighlight] = useState({ x: 0, y: 0, w: 0, show: false });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Check if user is authenticated by calling an API endpoint
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/auth/me');
+        const data = await res.json();
+        setIsAuthenticated(res.ok && data.success);
+      } catch {
+        setIsAuthenticated(false);
+      }
+    };
+    
+    checkAuth();
+    
+    // Listen for storage changes (in case token is added/removed)
+    const handleStorageChange = () => checkAuth();
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      setIsAuthenticated(false);
+      router.push('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   const handleNavMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!navRef.current) return;
@@ -97,19 +131,38 @@ export function Navbar() {
 
           {/* Right CTAs */}
           <div className="hidden md:flex items-center gap-3 text-sm shrink-0">
-            <Link
-              href="/sign-in"
-              className="font-medium text-slate-600 hover:text-black px-3 py-1.5 transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/sign-up"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-black text-white text-xs font-semibold hover:bg-slate-800 transition-colors shadow-sm"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="font-medium text-slate-600 hover:text-black px-3 py-1.5 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-black text-white text-xs font-semibold hover:bg-slate-800 transition-colors shadow-sm"
+                >
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/sign-in"
+                  className="font-medium text-slate-600 hover:text-black px-3 py-1.5 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-black text-white text-xs font-semibold hover:bg-slate-800 transition-colors shadow-sm"
+                >
+                  <span>Get Started</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -144,18 +197,43 @@ export function Navbar() {
             ))}
 
             <div className="pt-2 flex flex-col gap-2">
-              <Link
-                href="/sign-in"
-                className="w-full text-center py-2.5 rounded-full border border-white/50 bg-white/30 text-slate-900 font-medium backdrop-blur-sm"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/sign-up"
-                className="w-full text-center py-2.5 rounded-full bg-black text-white font-semibold text-xs"
-              >
-                Get Started Free
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full text-center py-2.5 rounded-full border border-white/50 bg-white/30 text-slate-900 font-medium backdrop-blur-sm"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full text-center py-2.5 rounded-full bg-black text-white font-semibold text-xs"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/sign-in"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full text-center py-2.5 rounded-full border border-white/50 bg-white/30 text-slate-900 font-medium backdrop-blur-sm"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/sign-up"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full text-center py-2.5 rounded-full bg-black text-white font-semibold text-xs"
+                  >
+                    Get Started Free
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}

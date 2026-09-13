@@ -1,9 +1,13 @@
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Check } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Check, Sparkles, Rocket, Crown, Zap, Building2, Loader2 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { Sparkles, Rocket, Crown, Zap, Building2 } from 'lucide-react';
 
 type Plan = {
+  id: string;
   name: string;
   icon: LucideIcon;
   price: string;
@@ -11,12 +15,13 @@ type Plan = {
   credits: string;
   tagline: string;
   features: string[];
-  cta: { label: string; href: string };
+  ctaLabel: string;
   highlighted?: boolean;
 };
 
 const plans: Plan[] = [
   {
+    id: 'free',
     name: 'Free',
     icon: Sparkles,
     price: '$0',
@@ -30,9 +35,10 @@ const plans: Plan[] = [
       'Session history (7 days)',
       'Community support',
     ],
-    cta: { label: 'Get Started Free', href: '/sign-up' },
+    ctaLabel: 'Get Started Free',
   },
   {
+    id: 'plus',
     name: 'Plus',
     icon: Rocket,
     price: '$9',
@@ -43,12 +49,13 @@ const plans: Plan[] = [
       'Up to 5 custom mentors',
       'Live visual companion',
       'Session debriefs & flashcards',
-      'Voice cloning',
+      'Voice customization & pacing',
       'Priority support',
     ],
-    cta: { label: 'Start Plus', href: '/sign-up' },
+    ctaLabel: 'Upgrade to Plus',
   },
   {
+    id: 'pro',
     name: 'Pro',
     icon: Crown,
     price: '$19',
@@ -57,15 +64,16 @@ const plans: Plan[] = [
     tagline: 'For power users and serious study sessions.',
     features: [
       'Unlimited mentors',
-      'Long-term memory',
-      'Real-time code & math rendering',
-      'API access',
+      'Full Anki SM-2 Spaced Repetition',
+      'Real-time KaTeX math & syntax code',
+      'Ultra-low latency voices',
       'Priority support',
     ],
-    cta: { label: 'Start Pro', href: '/sign-up' },
+    ctaLabel: 'Start Pro Trial',
     highlighted: true,
   },
   {
+    id: 'ultra',
     name: 'Ultra',
     icon: Zap,
     price: '$49',
@@ -75,34 +83,70 @@ const plans: Plan[] = [
     features: [
       'Everything in Pro',
       '10,000 monthly credits',
-      'Custom agent studio',
-      'Advanced analytics',
+      'Unlimited Walk Mode hours',
+      'Custom Agent Studio',
       'Dedicated support',
     ],
-    cta: { label: 'Go Ultra', href: '/sign-up' },
+    ctaLabel: 'Go Ultra',
   },
 ];
 
 export default function PricingPage() {
+  const router = useRouter();
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handleSelectPlan = async (planId: string) => {
+    if (planId === 'free') {
+      router.push('/sign-up');
+      return;
+    }
+
+    setLoadingPlan(planId);
+    try {
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: planId }),
+      });
+
+      const data = await res.json();
+      if (res.status === 401) {
+        // User not logged in -> redirect to sign-up
+        router.push(`/sign-up?redirect=pricing&plan=${planId}`);
+        return;
+      }
+
+      if (data.success && data.data?.url) {
+        window.location.href = data.data.url;
+      } else {
+        router.push('/dashboard');
+      }
+    } catch {
+      router.push('/sign-up');
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="text-center space-y-4 mb-14">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-100 border border-neutral-200 text-xs font-semibold text-slate-700">
-          <span>Simple credit-based pricing</span>
+          <span>Simple, transparent subscription pricing</span>
         </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-950">
-          Plans that scale with you
+          Plans that scale with your curiosity
         </h1>
         <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-          Every tier includes real-time voice tutoring, visual companions, and
-          automatic session debriefs. Credits unlock voice minutes and premium
-          AI features — once per month, never per session.
+          Every tier includes real-time full-duplex voice tutoring, live visual companions, and Anki SM-2 spaced repetition debriefs.
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {plans.map((plan) => {
           const Icon = plan.icon;
+          const isLoadingThis = loadingPlan === plan.id;
+
           return (
             <div
               key={plan.name}
@@ -149,14 +193,19 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link
-                href={plan.cta.href}
-                className={`w-full text-center py-3 rounded-full text-sm font-semibold ${
+              <button
+                disabled={isLoadingThis}
+                onClick={() => handleSelectPlan(plan.id)}
+                className={`w-full text-center py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 transition-all ${
                   plan.highlighted ? 'modern-btn-black' : 'modern-btn-outline'
                 }`}
               >
-                {plan.cta.label}
-              </Link>
+                {isLoadingThis ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <span>{plan.ctaLabel}</span>
+                )}
+              </button>
             </div>
           );
         })}
@@ -168,10 +217,9 @@ export default function PricingPage() {
             <Building2 className="w-5 h-5" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-xl font-bold text-slate-950">Enterprise</h3>
+            <h3 className="text-xl font-bold text-slate-950">Enterprise & Universities</h3>
             <p className="text-sm text-slate-600 max-w-xl">
-              Custom credit volumes, dedicated agents, SSO, admin controls, and
-              a named success engineer. Built for teams and institutions.
+              Custom credit volumes, dedicated institution AI models, SSO, and team analytics. Built for schools and research teams.
             </p>
           </div>
         </div>

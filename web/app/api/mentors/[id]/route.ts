@@ -14,7 +14,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
   try {
     await connectToDatabase();
     const { id } = await params;
-    const mentor = await Mentor.findById(id).lean();
+    const mentor = await Mentor.findById(id);
 
     if (!mentor) {
       return NextResponse.json<ApiResponse>(
@@ -23,9 +23,32 @@ export async function GET(_req: NextRequest, { params }: Params) {
       );
     }
 
+    // Auto-provision Vapi assistant if it was seeded or created without an assistant ID
+    if (!mentor.vapiAssistantId) {
+      try {
+        const { createVapiAssistant } = await import('@/lib/vapi');
+        const vapiId = await createVapiAssistant({
+          name: mentor.name,
+          subject: mentor.subject,
+          topic: mentor.topic,
+          difficulty: mentor.difficulty,
+          teachingStyle: mentor.teachingStyle,
+          pace: mentor.pace,
+          depth: mentor.depth,
+          voiceProvider: mentor.voiceProvider,
+          voiceId: mentor.voiceId,
+          systemPrompt: mentor.systemPrompt,
+        });
+        mentor.vapiAssistantId = vapiId;
+        await mentor.save();
+      } catch (err) {
+        console.warn('[vapi] auto-provision fallback:', err);
+      }
+    }
+
     return NextResponse.json<ApiResponse<IMentor>>({
       success: true,
-      data: mentor as unknown as IMentor,
+      data: mentor.toObject() as unknown as IMentor,
     });
   } catch (error: any) {
     return NextResponse.json<ApiResponse>(
